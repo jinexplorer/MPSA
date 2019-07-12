@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>我的消息</title>
+<link href="../../static/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="../../static/css/style.css" rel='stylesheet' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1">	
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<meta name="keywords" content="Bootstrap Responsive Templates, Iphone Compatible Templates, Smartphone Compatible Templates, Ipad Compatible Templates, Flat Responsive Templates"/>
+<script src="../../static/js/jquery-1.11.0.min.js"></script>
+<link href='http://fonts.useso.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href="../../static/css/biaoti.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<!--start-header-->
+			<div id="home" class="header">
+					<div class="top-header">
+						<div class="container">
+							<div class="logo">
+								<a href="{{url_for('mynew')}}"><img src="../../static/images/logo.png" alt=""></a>
+							</div>
+							<!--start-top-nav-->
+							 
+							<div class="clearfix"> </div>
+							<div class="title">
+							     <h3 class="STYLE4 STYLE1">学生社团管理平台</h3>
+							</div>
+						</div>
+				</div>
+			<!---pop-up-box---->
+					  <script type="text/javascript" src="../../static/js/modernizr.custom.min.js"></script>
+					<link href="../../static/css/popup-box.css" rel="stylesheet" type="text/css" media="all"/>
+					<script src="../../static/js/jquery.magnific-popup.js" type="text/javascript"></script>
+					<!---//pop-up-box---->
+				
+				 <script>
+						$(document).ready(function() {
+						$('.popup-with-zoom-anim').magnificPopup({
+							type: 'inline',
+							fixedContentPos: false,
+							fixedBgPos: true,
+							overflowY: 'auto',
+							closeBtnInside: true,
+							preloader: false,
+							midClick: true,
+							removalDelay: 300,
+							mainClass: 'my-mfp-zoom-in'
+						});
+																						
+						});
+				</script>					
+		<!--End-header-->
+		<div class="navgation">
+					<div class="menu">
+                         <a class="toggleMenu" href="#"><img src="../../static/images/menu-icon.png" alt="" /> </a>
+							<ul class="nav" id="nav">
+							
+							<li><a href="{{url_for('users')}}">我的社团</a></li>
+							<li><a href="{{url_for('mynew')}}" class="active">我的消息</a></li>
+							
+							<li><a href="{{url_for('systemnew')}}">系统通知</a></li>
+							<li><a href="{{url_for('personalcenter')}}">个人中心</a></li>
+							
+							</ul>
+                            <!----start-top-nav-script---->
+		                     <script type="text/javascript" src="../../static/js/responsive-nav.js"></script>
+							<script type="text/javascript">
+							jQuery(document).ready(function($) {
+								$(".scroll").click(function(event){		
+									event.preventDefault();
+									$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+								});
+							});
+							</script>
+							<!----//End-top-nav-script---->
+					</div>
+					<div class="search2">
+					  <form>
+						 <input type="text" value="Search.." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search..';}"/>
+						 <input type="submit" value="">
+					  </form>
+					</div>
+					<div class="clearfix"> </div>
+		</div>
+		</div>
+		<!--starts-blog-->
+		<div class="blog">
+			<div class="container">
+				<div class="blog-main">
+					<div class="col-md-8 blog-main-left">
+						<h3>消息</h3>
+						<div class="blg">
+							<div class="col-md-4 blog-left">
+								<a href="javascript:alert('还未开发')"><img src="../../static/images/ape.jpg" alt=""></a>
+							</div>
+							<div class="col-md-8 blog-left">
+								<h5>消息标题</h5>
+								<span>by <a href="#">发信人</a> on 发信时间   <a href="#">  comments&nbsp;(2)</a></span>
+								<p>信息内容Suspendisse commodo tempor sagittis! In justo est, sollicitudin eu scelerisque pretium, placerat eget elit. Praesent faucibus rutrum odio at rhoncus. Pellentesque vitae tortor id neque fermentum pretium.</p>
+								<div class="blog-btn">
+									<a href="javascript:alert('还未开发')">获取详情</a>
+								</div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="blg">
+							<div class="col-md-4 blog-left">
+								<a href="javascript:alert('还未开发')"><img src="../../static/images/vt.jpg" alt=""></a>
+							</div>
+							<div class="col-md-8 blog-left">
+								<h5>VULPUTATE VITAE DIGNISSIM</h5>
+								<span>by <a href="#">user</a> on 09 july 2014   <a href="#">  comments&nbsp;(2)</a></span>
+								<p>Suspendisse commodo tempor sagittis! In justo est, sollicitudin eu scelerisque pretium, placerat eget elit. Praesent faucibus rutrum odio at rhoncus. Pellentesque vitae tortor id neque fermentum pretium.</p>
+								<div class="blog-btn">
+									<a href="javascript:alert('还未开发')">Read More</a>
+								</div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="blg">
+							<div class="col-md-4 blog-left">
+								<a href="javascript:alert('还未开发')"><img src="../../static/images/gp.jpg" alt=""></a>
+							</div>
+							<div class="col-md-8 blog-left">
+								<h5>VULPUTATE VITAE DIGNISSIM</h5>
+								<span>by <a href="#">user</a> on 09 july 2014   <a href="#">  comments&nbsp;(2)</a></span>
+								<p>Suspendisse commodo tempor sagittis! In justo est, sollicitudin eu scelerisque pretium, placerat eget elit. Praesent faucibus rutrum odio at rhoncus. Pellentesque vitae tortor id neque fermentum pretium.</p>
+								<div class="blog-btn">
+									<a href="javascript:alert('还未开发')">Read More</a>
+								</div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+					</div>
+					<div class="col-md-4 blog-main-left">
+						<h3>消息种类</h3>
+						<div class="ctgry">
+						<ul>
+							<li><a href="#">Nulla consectetur adipiscing metus</a></li>
+							<li><a href="#">purus vitae varius sagittis</a></li>
+							<li><a href="#">Epsum factorial non deposit quid</a></li>
+							<li><a href="#">Donec eu elit in nisi placerat</a></li>
+							<li><a href="#">Curabitur congue eros ac turpis</a></li>
+						</ul>
+						</div>
+						<div class="archives">
+							<h3>消息时间</h3>
+						<ul>
+							<li><a href="#">November,2013</a></li>
+							<li><a href="#">May,2013</a></li>
+							<li><a href="#">April,2013</a></li>
+							<li><a href="#">June,2013</a></li>
+							<li><a href="#">August,2013</a></li>
+							<li><a href="#">January,2013</a></li>
+						</ul>
+						</div>
+						<div class="search">
+							<h3>SEARCH</h3>
+							<input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Email';}" />
+							<input type="submit" value="Search" />
+						</div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="blog-bottom">
+					<ul>
+						<li><a href="#" class="active">PREV</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">...</a></li>
+						<li><a href="#">14</a></li>
+						<li><a href="#">15</a></li>
+						<li><a href="#" class="active">NEXT</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--end-blog-->
+		 <div class="footer">
+                         <div class="container">
+                                    <div class="footer-text">
+										<p>宏颜获水</p>
+									</div>
+                         </div>
+					<a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+     </div>
+</body>
+</html>
