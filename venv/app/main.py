@@ -67,7 +67,7 @@ def log_up():
             return render_template('log_up.html', error=error)
         else:
             session[ 'phone_number' ] = phone_number
-            return redirect('/user')
+            return redirect('/user/' + phone_number)
     else:
         return render_template('log_up.html')
 
