@@ -70,7 +70,12 @@ def log_up():
             return render_template('log_up.html', error=error)
         else:
             session[ 'phone_number' ] = phone_number
-            return redirect('users')
+            sql = 'insert into common_user_information(phone_number,student_number,sex,name,description) values(%s,%s,%s,%s,%s);'
+            if cursor.execute(sql, [ phone_number, '20xxxxxxxxxxx', '男', '未命名', '这个人很懒，什么也没有留下' ]):
+                db.commit()
+                return redirect('users')
+            else:
+                return render_template('404.html')
     else:
         return render_template('log_up.html')
 
@@ -396,6 +401,188 @@ def change_password_check(username, password):
     else:
         return 0
 
+
+
+@app.route('/manager/management/create_team', methods=[ 'GET', 'POST' ])
+def create_team():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            team_name = request.form['ogName'] #获取社团名
+            team_type = request.form['ogclass'] #获取社团类别
+            team_introduction = request.form['ogintroduction'] #获取社团简介
+            #team_logo =                                #获取社团logo
+            sql = 'insert into team(team_name,category,description,create_user) values(%s,%s,%s,%s);'            #将社团信息写入数据库
+            if create_team_check(team_name) == 0:  # 当不存在社团名
+                if cursor.execute(sql, [team_name,team_type,team_introduction,session['manage_phone_number']]):  # 判断写数据库操作是否完成
+                      db.commit()
+                      return render_template('management_create.html',notice = '创建成功')      #创建社团成功，返回原页面并提示
+                else:
+                      return render_template('404.html')      #创建失败，写数据库操作失败
+            else:  # 当存在社团名：
+                 return render_template('management_create.html',notice = '创建失败,社团已存在')             #创建失败，已存在社团名称
+
+            # 涉及写操作注意要提交
+        else:
+            return render_template('management_create.html') #没有收到消息，留在原页面
+
+    else:
+        return render_template('404.html')
+
+
+def create_team_check(team_name):
+    if cursor.execute('SELECT * from team where team_name = "%s"'%(team_name)):
+        return 1
+    else:
+        return 0
+
+
+
+
+@app.route('/manager/management/people', methods=[ 'GET', 'POST' ])
+def people():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            team_name=request.form['team_name']
+            sql = 'select team_name from team where create_user="%s" and team_name="%s"' % (session[ 'manage_phone_number' ],team_name)
+        else:
+            sql='select team_name from team where create_user="%s"'%(session['manage_phone_number'])
+        if cursor.execute(sql):
+            sql_result = cursor.fetchall()
+            return render_template('management_community.html',result=sql_result)
+        else:
+            return render_template('management_community.html')
+    else:
+        return render_template('404.html')
+
+@app.route('/manager/management/peoples', methods=[ 'GET', 'POST' ])
+def peoples():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            team_name=request.form['team_name']
+
+            sql='select name,sex,student_number,team_user.phone_number from team_user,common_user_information where team_name="%s" and team_user.phone_number=common_user_information.phone_number'%(team_name)
+            if cursor.execute(sql):
+                sql_result = cursor.fetchall()
+                return render_template('management_people.html', result=sql_result,team=team_name)
+            else:
+                return render_template('management_people.html',team=team_name)
+        else:
+             return render_template('management_people.html',team=team_name)
+    else:
+        return render_template('404.html')
+@app.route('/delect', methods=[ 'GET', 'POST' ])
+def delect():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            name = request.form[ 'name' ]
+            phone_number = request.form[ 'phone_number' ]
+            sql = 'select team_name FROM team_user where user_name="%s" and phone_number="%s"' % (name, phone_number)
+            sql1='DELETE FROM team_user where user_name="%s" and phone_number="%s"'%(name,phone_number)
+            if cursor.execute(sql):
+                sql_result = cursor.fetchall()
+                team_name=sql_result[0][0];
+                if cursor.execute(sql1):
+                    db.commit()
+                    sql2 = 'select name,sex,student_number,team_user.phone_number from team_user,common_user_information where  team_name="%s" and team_user.phone_number=common_user_information.phone_number' % (team_name.strip())
+                    if cursor.execute(sql2):
+                        sql_result = cursor.fetchall()
+                        return render_template('management_people.html', result=sql_result,team=team_name)
+                    else:
+                        return render_template('management_people.html', team=team_name)
+                else:
+                     return render_template('management_people.html',team=team_name)
+            else:
+                return render_template('management_people.html')
+        else:
+            return render_template('management_people.html')
+    else:
+        return render_template('404.html')
+
+
+
+@app.route('/add', methods=[ 'GET', 'POST' ])
+def add():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            phone_number = request.form[ 'new_phone_number' ]
+            team_name = request.form[ 'team_name' ].strip()
+            sql = 'select name FROM common_user_information where phone_number="%s"' % (phone_number)
+            if cursor.execute(sql):
+                sql_result = cursor.fetchall()
+                user_name=sql_result[0][0];
+                sql_sel = 'select * from  team_user where team_name="%s" and user_name="%s" and phone_number="%s"'  % ( \
+                    team_name, user_name, phone_number)
+                if cursor.execute(sql_sel):
+                    sql2 = 'select name,sex,student_number,team_user.phone_number from team_user,common_user_information where team_name="%s" and team_user.phone_number=common_user_information.phone_number' % (
+                        team_name)
+                    if cursor.execute(sql2):
+                        sql_result = cursor.fetchall()
+                        return render_template('management_people.html', result=sql_result, team=team_name,\
+                                               notice='用户已存在')
+                    else:
+                        return render_template('management_people.html', team=team_name, notice='用户已存在')
+                else:
+                    sql1 = 'insert into  team_user(team_name,user_name,phone_number) value ("%s","%s","%s")' % (\
+                    team_name, user_name,phone_number)
+                    if cursor.execute(sql1):
+                        db.commit()
+                        sql2 = 'select name,sex,student_number,team_user.phone_number from team_user,common_user_information where team_name="%s" and team_user.phone_number=common_user_information.phone_number' % (
+                            team_name)
+                        if cursor.execute(sql2):
+                            sql_result = cursor.fetchall()
+                            return render_template('management_people.html', result=sql_result, team=team_name,notice='添加成功，成员信息已加入')
+                        else:
+                            return render_template('management_people.html', team=team_name,notice='添加成功，成员信息已加入')
+                    else:
+                         return render_template('management_people.html',team=team_name,notice='新增失败')
+            else:
+                sql2 = 'select name,sex,student_number,team_user.phone_number from team_user,common_user_information where team_name="%s" and team_user.phone_number=common_user_information.phone_number' % (
+                    team_name)
+                if cursor.execute(sql2):
+                    sql_result = cursor.fetchall()
+                    return render_template('management_people.html', result=sql_result, team=team_name, \
+                                           notice='查无此人')
+                else:
+                    return render_template('management_people.html', team=team_name, notice='查无此人')
+        else:
+            return render_template('management_people.html')
+    else:
+        return render_template('404.html')
+
+
+
+
+
+
+
+
+
+
+@app.route('/manager/management/send_message',methods=[ 'GET', 'POST' ])
+def send_message(): #创建公告
+    if session.get('manage_phone_number'):
+        sql = 'select team_name from team where create_user="%s"' % (session[ 'manage_phone_number' ])
+        if cursor.execute(sql):
+            sql_result = cursor.fetchall()
+            if request.method == "POST":
+                sql = 'insert into message(team_name,title,content,phone_number) values(%s,%s,%s,%s);'  # 将公告写入数据库(库还没写)
+                team_name = request.form['team_name']  # 获取用户名
+                title = request.form['headline']          #获取标题
+                message = request.form['content']  # 获取公告内容
+                phone_number=session['manage_phone_number']
+                if cursor.execute(sql,[team_name,title,message,phone_number]):
+                    db.commit()
+                    return render_template('management_publish.html',result=sql_result,notice='发布成功')  # 创建公告成功！这里应该返回的是本社团的主界面
+                else:
+                    return render_template('management_publish.html',notice='发生未知错误，请联系系统管理员')  # 创建公告失败，应该返回本界面
+
+            else:
+                return render_template('management_publish.html',result=sql_result)   #还未创建公告，留在本界面
+        else:
+            return render_template('management_publish.html',notice='请先创建一个社团')  # 还未创建公告，留在本界面
+
+    else:
+        return render_template('404.html') #管理员未登录
 
 
 

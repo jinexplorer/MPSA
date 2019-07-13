@@ -6,17 +6,17 @@
 		<title>消息发布</title>
 
 		<!-- 公共样式 开始 -->
-		<link rel="stylesheet" type="text/css" href="css/base.css">
-		<link rel="stylesheet" type="text/css" href="css/iconfont.css">
-		<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/layui.css">
-		<script type="text/javascript" src="js/layui.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
+		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+		<script type="text/javascript" src="../../static/js/layui.js"></script>
 		<!-- 滚动条插件 -->
-		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.css">
-		<script src="js/jquery-ui-1.10.4.min.js"></script>
-		<script src="js/jquery.mousewheel.min.js"></script>
-		<script src="js/jquery.mCustomScrollbar.min.js"></script>
-		<script src="js/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<link rel="stylesheet" type="text/css" href="../../static/css/jquery.mCustomScrollbar.css">
+		<script src="../../static/js/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../static/js/jquery.mousewheel.min.js"></script>
+		<script src="../../static/js/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../static/js/cframe.js"></script><!-- 仅供所有子页面使用 -->
 		<!-- 公共样式 结束 -->
 		
 		<style>
@@ -35,7 +35,7 @@
 
 	<body>
 		<div class="cBody">
-			<form id="addForm" class="layui-form" action="">
+			<form id="addForm" class="layui-form" action="/manager/management/send_message" method="post">
 				<div class="layui-form-item">
 					<label class="layui-form-label">标题</label>
 					<div class="layui-input-block">
@@ -47,9 +47,21 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">内容</label>
 					<div class="layui-input-block">
-						<textarea name="content" class="layui-textarea"></textarea>
+						<textarea name="content" class="layui-textarea" required></textarea>
 					</div>
 				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">社团选择</label>
+					<div class="layui-input-inline">
+						<select name="team_name" id="provid" lay-filter="provid" required >
+							{% for i in result %}
+								<option value="{{i[0]}}">{{i[0]}}</option>
+							{% endfor %}
+
+	                    </select>
+					</div>
+				</div>
+
 				<div class="layui-form-item">
 					<label class="layui-form-label">附件</label>
 					<div class="layui-upload-drag" id="accessory">
@@ -60,13 +72,17 @@
 				
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<button class="layui-btn" lay-submit lay-filter="submitBut">发布</button>
+						<button class="layui-btn" type="submit">发布</button>
 						
 					</div>
 				</div>
 			</form>
 			
-			
+			{% if notice %}
+			<script>
+				alert('{{notice}}')
+			</script>
+			{% endif %}
 			<script>
 				layui.use(['upload','form'], function() {
 					var form = layui.form;

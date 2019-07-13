@@ -49,15 +49,15 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 		        	
 		        	
 					<li>
-		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('management_create.html',this)"><i></i>创建社团</a>
+		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('/manager/management/create_team',this)"><i></i>创建社团</a>
 		           	</li>
 					<li>
-		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('management_community.html',this)"><i></i>人员管理</a>
+		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('/manager/management/people',this)"><i></i>人员管理</a>
 		           	</li>
 					<li>
-		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('management_publish.html',this)"><i></i>发布消息</a>
+		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('/manager/management/send_message',this)"><i></i>发布消息</a>
 		           	</li>
-					<li><a class="menuFA" href="javascript:void(0)" onClick="MM_openBrWindow('management_mycommunity.html','','')" ><i></i>返回</a></li>
+					<li><a class="menuFA" href="/manager"><i></i>返回</a></li>
 					
 					
 		        	
@@ -75,7 +75,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					<span><i class="iconfont icon-xianshiqi"></i>创建社团</span>
 				</div>
 				<div class="con">
-					<iframe id="mainIframe" src="management_create.html" scrolling="no"></iframe>
+					<iframe id="mainIframe" src="/manager/management/create_team" scrolling="no"></iframe>
 				</div>
 			</div>
 			<!-- 核心区域 - 结束 -->
