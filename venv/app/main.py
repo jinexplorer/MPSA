@@ -268,13 +268,136 @@ def change_password_check(username, password):
         return 0
 
 
+@app.route('/contact_me', methods=[ 'GET', 'POST' ])
+def contact_me():
+    if request.method == "POST":
+        return render_template('contact_me.html',success='1')
+    return render_template('contact_me.html')
+
 @app.route('/log_out', methods=[ 'GET', 'POST' ])
 def log_out():
-    if session[ 'phone_number' ]:
+    if session.get('phone_number'):
         session.pop('phone_number', None)
     else:
         pass
     return redirect('/');
+@app.route('/manager_log_out', methods=[ 'GET', 'POST' ])
+def manager_log_out():
+    if session.get('manage_phone_number'):
+        session.pop('manage_phone_number', None)
+    else:
+        pass
+    return redirect('/');
+
+
+@app.route('/manager', methods=[ 'GET', 'POST' ])
+def manager():
+    if session.get('manage_phone_number'):
+        return render_template('management_mycommunity.html')
+    else:
+        return render_template('404.html')
+@app.route('/manager/manager_mynews', methods=[ 'GET', 'POST' ])
+def manager_mynews():
+    if session.get('manage_phone_number'):
+        return render_template('management_mynews.html')
+    else:
+        return render_template('404.html')
+@app.route('/manager/manager_systemnews', methods=[ 'GET', 'POST' ])
+def manager_systemnews():
+    if session.get('manage_phone_number'):
+        return render_template('management_systemsnews.html')
+    else:
+        return render_template('404.html')
+@app.route('/manager/management', methods=[ 'GET', 'POST' ])
+def management():
+    if session.get('manage_phone_number'):
+        return render_template('management.html')
+    else:
+        return render_template('404.html')
+
+@app.route('/manager/manager_pcenter', methods=[ 'GET', 'POST' ])
+def manager_pcenter():
+    if session.get('manage_phone_number'):
+        return render_template('manager_pcenter.html')
+    else:
+        return render_template('404.html')
+
+@app.route('/manager/manager_pcenter/manager_information', methods=[ 'GET', 'POST' ])
+def manager_information():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            name = request.form[ 'sname' ]  # 获取姓名
+            student_number = request.form[ 'snumber' ]  # 获取学号
+            sex = request.form[ 'sex' ]  # 获取性别
+            introduction = request.form[ 'introduction' ].strip()  # 获取个人简介
+            phone_number = request.form[ 'pnumber' ]
+
+            if len(introduction) == 0:
+                introduction = '这个人很懒，什么都没有留下'
+            sql_change = 'update manage_user_information set name="%s",student_number = "%s" ,sex = "%s" , description ="%s" where phone_number="%s"' % (
+                name, student_number, sex, introduction, phone_number)  # 修改个人信息
+
+            if cursor.execute(sql_change):
+                db.commit()
+            else:
+                redirect('manager_pcenter')
+        sql_view = 'select name,student_number,sex,description from manage_user_information where phone_number="%s"' % ( session[ 'manage_phone_number' ])  # 查看已有个人信息
+        if cursor.execute(sql_view):  # 显示目前个人信息
+            personal_result = cursor.fetchall()
+            name = personal_result[ 0 ][ 0 ]
+            student_number = personal_result[ 0 ][ 1 ]
+            sex = personal_result[ 0 ][ 2 ]
+            introduction = personal_result[ 0 ][ 3 ]
+            phone_number = session[ 'manage_phone_number' ]
+
+            return render_template('manager_pcenter_information.html', name=name, student_number=student_number, \
+                                   phone_number=phone_number, sex=sex, introduction=introduction)
+        else:
+            return render_template('manager_pcenter_information.html', fail='个人信息修改失败,请重试')  # 如果获取数据库失败，则返回错误信息
+
+    else:
+        return render_template('404.html')
+
+
+
+@app.route('/manager/manager_pcenter/manager_password', methods=[ 'GET', 'POST' ])
+def manager_password():
+    if session.get('manage_phone_number'):
+        if request.method == "POST":
+            old_password = request.form[ 'oldpassword' ]  # 获取原密码
+            new_password = request.form[ 'password' ]  # 获取新密码
+            new_password_word = request.form[ 'password2' ]  # 再次输入新密码
+            phone_number=session['manage_phone_number']
+            if new_password == new_password_word:  # 判断两次输入密码是否相同
+                if change_password_check(phone_number, old_password):  # 判断原密码是否匹配
+                    sql = "update manage_user set password='%s' where phone_number='%s' and password='%s'" % ( \
+                        new_password, phone_number, old_password)
+                    if cursor.execute(sql):  # 判断写数据库操作是否完成
+                        db.commit()
+                        return render_template('manager_pcenter_password.html', notice='修改密码成功')
+
+                    else:
+                        return render_template('manager_pcenter_password.html', notice='未知错误')
+                else:  # 当原密码与数据库中不匹配时：
+                    return render_template('manager_pcenter_password.html', notice='原密码错误')
+            else:  # 当两次输入密码不相同时：
+                return render_template('manager_pcenter_password.html', notice='两次密码不一致！')
+        # 涉及写操作注意要提交
+
+        else:
+            return render_template('manager_pcenter_password.html')  # 没有收到消息，留在原页面
+    else:
+        return render_template('404.html')
+
+
+def change_password_check(username, password):
+    if cursor.execute('SELECT * from manage_user where phone_number = "%s" and password = "%s"' % (username, password)):
+        return 1
+    else:
+        return 0
+
+
+
 
 
 
