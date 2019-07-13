@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
 		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
-		<script type="text/javascript" src="../../static/js/layui.js"></script>
+		<script type="text/javascript" src="../../static/js/layui/layui.js"></script>
 		<!-- 滚动条插件 -->
 		<link rel="stylesheet" type="text/css" href="../../static/css/jquery.mCustomScrollbar.css">
 		<script src="../../static/js/jquery-ui-1.10.4.min.js"></script>
@@ -36,38 +36,54 @@
 
 	<body>
 		<div class="cBody">
-			<form id="addForm" class="layui-form" action="">
+			<form id="addForm" class="layui-form" action="/information" method="post">
 				<div class="layui-form-item">
 					<label class="layui-form-label">姓名</label>
 					<div class="layui-input-block">
-						<input type="text" name="sname" required lay-verify="required" autocomplete="off" class="layui-input">
+						<input type="text" name="sname" maxlength="40" required lay-verify="required" autocomplete="off" class="layui-input" {% if name %} value="{{name}}"{% endif %}>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">学号</label>
 					<div class="layui-input-block">
-						<input type="text" name="snumber" required lay-verify="required|number" autocomplete="off" class="layui-input">
+						<input type="text" maxlength="13" name="snumber" required lay-verify="required|number" autocomplete="off" class="layui-input" {% if student_number %} value="{{student_number}}"{% endif %}>
 					</div>
 				</div>
 				
 				
 				<div class="layui-form-item">
 					<label class="layui-form-label">性别</label>
-					<div class="layui-input-block">
-						<input type="radio" name="gender" value="nan" title="男">
-						<input type="radio" name="gender" value="nv" title="女" checked>
+					<div class="layui-input-inline">
+						<select name="sex" id="provid" lay-filter="provid" >
+
+							{% if sex=='女' %}
+								<option  value="女">女</option>
+								<option value="男">男</option>
+							{% else %}
+								<option value="男">男</option>
+								<option  value="女">女</option>
+							{% endif %}
+
+	                    </select>
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<label class="layui-form-label">手机号</label>
+					<div class="layui-input-block">
+						<input maxlength="11" type="text" name="pnumber"  readonly="readonly" {% if phone_number %} value="{{phone_number}}"{% endif %} required lay-verify="required|number" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
 					<label class="layui-form-label">简介</label>
 					<div class="layui-input-block">
-						<textarea name="introduction" class="layui-textarea"></textarea>
+						<textarea name="introduction" maxlength="100" class="layui-textarea" >{% if introduction %} {{introduction}}{% endif %}</textarea>
 					</div>
 				</div>
 				
 				<div class="layui-form-item">
 					<div class="layui-input-block">
-						<button class="layui-btn" lay-submit lay-filter="submitBut">立即提交</button>
+						<button  type="submit" class="layui-btn">立即提交</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 					</div>
 				</div>

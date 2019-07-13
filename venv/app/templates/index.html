@@ -42,7 +42,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
                     <li class="active"><a  href="/manage_login"><span> </span>管理员登录</a>
                     </li>
 
-                    <li><a  href="log_up">用户注册</a></li>
+                    <li><a  href="/log_up">用户注册</a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -57,30 +57,6 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <link href="../static/css/popup-box.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="../static/js/jquery.magnific-popup.js" type="text/javascript"></script>
     <!---//pop-up-box---->
-
-
-        <div id="small-dialog2" class="mfp-hide">
-        <div class="Administer login">
-            <h3>管理员登录</h3>
-            <form action="/manage_login" method="post">
-                <input type="text" placeholder="手机号" name="phone_number"/>
-                <input type="password" placeholder="密码" name="password"/>
-                <input type="submit" value="登录" )/><br>
-                <a href="/login">没有账号？点我获取</a>
-            </form>
-        </div>
-    </div>
-    <div id="small-dialog3" class="mfp-hide">
-        <div class="Student login">
-            <form action="/log_up" method="post">
-                <h3>联系我们，获取管理员账号</h3>
-                <input type="text" placeholder="请输入你的邮箱" name="phone_number"/>
-                <input type="submit" value="发送" /><br>
-                <a class="play-icon popup-with-zoom-anim" href="/manage_login">已有账号？点我登录</a>
-            </form>
-
-        </div>
-    </div>
     <script>
 						$(document).ready(function() {
 						$('.popup-with-zoom-anim').magnificPopup({
@@ -148,7 +124,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
         <div class="care-bottom">
             <div class="col-md-4 c-bottom">
                 <div class="care-bottom-left">
-                    <img src="images/tree.png" alt="">
+                    <img src="../static/images/tree.png" alt="">
                     <h4>社团名称</h4>
                     <p> 社团简介which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum,
                         you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
