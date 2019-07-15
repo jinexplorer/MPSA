@@ -19,11 +19,11 @@ app-
 
 ubuntu18.04 的
 flask使用方法如下     https://www.jianshu.com/p/7c9ebda62214
-数据库的使用方法       
+数据库的使用方法       https://www.jianshu.com/p/7c9ebda62214
 通过pip install pymysql库
 
 将app文件放置到主文件夹夹，安装pymysql 修改数据库连接的参数，之后运行main.py文件，即可就可以在127.0.0.1:5000即可运行。
-一个月的时间以内可以去http://liudjain.com访问样式网站。欢迎大家指出BUG！
+一个月的时间以内可以去http://liudjain.com 访问样式网站。欢迎大家指出BUG！
 
 
 
