@@ -35,7 +35,7 @@ ubuntu18.04 的
 
 flask使用方法如下     https://www.jianshu.com/p/7c9ebda62214
 
-数据库的使用方法       https://www.jianshu.com/p/7c9ebda62214
+数据库的使用方法       https://www.jianshu.com/p/4908f6e686fa
 
 通过pip install pymysql库
 
