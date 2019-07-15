@@ -1,16 +1,26 @@
 # MPSA
 Management Platform for Student Associations
+
 学生社团管理平台
 
 后端采用python3的flask架构，数据库使用的为mysql
+
+
 后端使用的语言为python3,前端使用的是html,css,javascript
 
+
 文件结构：(其他文件为本地生成的文件，如要使用需要自己在本地配置，配置过程稍后有)
+
 app-
+
     -template -html文件
+    
     -static 
+    
             -images -图片文件
+            
             -css -css文件
+            
             -js -javascript文件
             -font -字体文件
     -main.py -主运行文件
