@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template, request, redirect, flash
 import pymysql
+import hashlib
 
 app = Flask(__name__)
 db = pymysql.connect("localhost", "jin", "liujin987", "MPSA")
@@ -7,6 +8,8 @@ cursor = db.cursor()
 app.config[ 'SECRET_KEY' ] = '123456'
 
 
+def md5encryption(string):
+    return   hashlib.md5(string.encode('utf-8')).hexdigest()
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -29,8 +32,8 @@ def login():
             return redirect('/user/' + session[ 'phone_number' ])
     else:
         if request.method == "POST":
-            phone_number = request.form[ 'phone_number' ]
-            password = request.form[ 'password' ]
+            phone_number = request.form[ 'phone_number' ].strip()
+            password = md5encryption(request.form[ 'password' ].strip())
             error = login_check(phone_number, password)
             if error != 1:
                 return render_template('user_login.html', error=error)
@@ -63,8 +66,8 @@ def login_check(phone_number, password):
 @app.route('/log_up', methods=[ 'GET', 'POST' ])
 def log_up():
     if request.method == "POST":
-        phone_number = request.form[ 'phone_number' ]
-        password = request.form[ 'password' ]
+        phone_number = request.form[ 'phone_number' ].strip()
+        password = md5encryption(request.form[ 'password' ].strip())
         error = log_up_check(phone_number, password)
         if error != 1:
             return render_template('log_up.html', error=error)
@@ -83,7 +86,7 @@ def log_up():
 def log_up_check(phone_number, password):
     phone_number_start = [ 130, 131, 132, 155, 156, 186, 185, 176, 134, 135, 136, 137, 138, 139, 150, 151, \
                            152, 157, 158, 159, 182, 183, 184, 188, 187, 147, 178, 133, 153, 180, 181, 189, 177 ]
-    if len(phone_number.strip()) == 0 or len(password.strip()) == 0:
+    if len(phone_number) == 0 or len(password) == 0:
         return "手机或密码不能为空"
     elif len(phone_number) != 11 or int(phone_number[ 0:3 ]) not in phone_number_start:
         return "请输入正确的手机号"
@@ -109,8 +112,9 @@ def manage_login():
             return redirect('/manager')
     else:
         if request.method == "POST":
-            phone_number = request.form[ 'phone_number' ]
-            password = request.form[ 'password' ]
+            phone_number = request.form[ 'phone_number' ].strip()
+            a=request.form[ 'password' ].strip()
+            password = md5encryption(request.form[ 'password' ].strip())
             error = manage_login_check(phone_number, password)
             if error != 1:
                 return render_template('manage_login.html', error=error)
@@ -193,11 +197,11 @@ def personalcenters(phone_number):
 @app.route('/information', methods=[ 'GET', 'POST' ])
 def information():
     if request.method == "POST":
-        name = request.form[ 'sname' ]  # 获取姓名
-        student_number = request.form[ 'snumber' ]  # 获取学号
-        sex = request.form[ 'sex' ]  # 获取性别
+        name = request.form[ 'sname' ].strip()  # 获取姓名
+        student_number = request.form[ 'snumber' ].strip()  # 获取学号
+        sex = request.form[ 'sex' ].strip()  # 获取性别
         introduction = request.form[ 'introduction' ].strip()  # 获取个人简介
-        phone_number = request.form[ 'pnumber' ]
+        phone_number = request.form[ 'pnumber' ].strip()
 
         if len(introduction) == 0:
             introduction = '这个人很懒，什么都没有留下'
@@ -241,9 +245,9 @@ def passwords():
 def password(phone_number):
     if session.get('phone_number'):
         if request.method == "POST":
-            old_password = request.form[ 'oldpassword' ]  # 获取原密码
-            new_password = request.form[ 'password' ]  # 获取新密码
-            new_password_word = request.form[ 'password2' ]  # 再次输入新密码
+            old_password = md5encryption(request.form[ 'oldpassword' ].strip())  # 获取原密码
+            new_password = md5encryption(request.form[ 'password' ].strip() )# 获取新密码
+            new_password_word = md5encryption(request.form[ 'password2' ].strip() ) # 再次输入新密码
             if new_password == new_password_word:  # 判断两次输入密码是否相同
                 if change_password_check(phone_number, old_password):  # 判断原密码是否匹配
                     sql = "update common_user set password='%s' where phone_number='%s' and password='%s'" % ( \
@@ -331,11 +335,11 @@ def manager_pcenter():
 def manager_information():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            name = request.form[ 'sname' ]  # 获取姓名
-            student_number = request.form[ 'snumber' ]  # 获取学号
-            sex = request.form[ 'sex' ]  # 获取性别
+            name = request.form[ 'sname' ].strip()  # 获取姓名
+            student_number = request.form[ 'snumber' ].strip()  # 获取学号
+            sex = request.form[ 'sex' ].strip() # 获取性别
             introduction = request.form[ 'introduction' ].strip()  # 获取个人简介
-            phone_number = request.form[ 'pnumber' ]
+            phone_number = request.form[ 'pnumber' ].strip()
 
             if len(introduction) == 0:
                 introduction = '这个人很懒，什么都没有留下'
@@ -369,12 +373,12 @@ def manager_information():
 def manager_password():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            old_password = request.form[ 'oldpassword' ]  # 获取原密码
-            new_password = request.form[ 'password' ]  # 获取新密码
-            new_password_word = request.form[ 'password2' ]  # 再次输入新密码
+            old_password = md5encryption(request.form[ 'oldpassword' ].strip())  # 获取原密码
+            new_password = md5encryption(request.form[ 'password' ].strip() )# 获取新密码
+            new_password_word = md5encryption(request.form[ 'password2' ].strip() ) # 再次输入新密码
             phone_number=session['manage_phone_number']
             if new_password == new_password_word:  # 判断两次输入密码是否相同
-                if change_password_check(phone_number, old_password):  # 判断原密码是否匹配
+                if change_password_check_manage(phone_number, old_password):  # 判断原密码是否匹配
                     sql = "update manage_user set password='%s' where phone_number='%s' and password='%s'" % ( \
                         new_password, phone_number, old_password)
                     if cursor.execute(sql):  # 判断写数据库操作是否完成
@@ -395,7 +399,7 @@ def manager_password():
         return render_template('404.html')
 
 
-def change_password_check(username, password):
+def change_password_check_manage(username, password):
     if cursor.execute('SELECT * from manage_user where phone_number = "%s" and password = "%s"' % (username, password)):
         return 1
     else:
@@ -407,9 +411,9 @@ def change_password_check(username, password):
 def create_team():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            team_name = request.form['ogName'] #获取社团名
-            team_type = request.form['ogclass'] #获取社团类别
-            team_introduction = request.form['ogintroduction'] #获取社团简介
+            team_name = request.form['ogName'].strip() #获取社团名
+            team_type = request.form['ogclass'].strip() #获取社团类别
+            team_introduction = request.form['ogintroduction'].strip() #获取社团简介
             #team_logo =                                #获取社团logo
             sql = 'insert into team(team_name,category,description,create_user) values(%s,%s,%s,%s);'            #将社团信息写入数据库
             if create_team_check(team_name) == 0:  # 当不存在社团名
@@ -442,7 +446,7 @@ def create_team_check(team_name):
 def people():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            team_name=request.form['team_name']
+            team_name=request.form['team_name'].strip()
             sql = 'select team_name from team where create_user="%s" and team_name="%s"' % (session[ 'manage_phone_number' ],team_name)
         else:
             sql='select team_name from team where create_user="%s"'%(session['manage_phone_number'])
@@ -458,7 +462,7 @@ def people():
 def peoples():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            team_name=request.form['team_name']
+            team_name=request.form['team_name'].strip()
 
             sql='select name,sex,student_number,team_user.phone_number from team_user,common_user_information where team_name="%s" and team_user.phone_number=common_user_information.phone_number'%(team_name)
             if cursor.execute(sql):
@@ -474,8 +478,8 @@ def peoples():
 def delect():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            name = request.form[ 'name' ]
-            phone_number = request.form[ 'phone_number' ]
+            name = request.form[ 'name' ].strip()
+            phone_number = request.form[ 'phone_number' ].strip()
             sql = 'select team_name FROM team_user where user_name="%s" and phone_number="%s"' % (name, phone_number)
             sql1='DELETE FROM team_user where user_name="%s" and phone_number="%s"'%(name,phone_number)
             if cursor.execute(sql):
@@ -504,7 +508,7 @@ def delect():
 def add():
     if session.get('manage_phone_number'):
         if request.method == "POST":
-            phone_number = request.form[ 'new_phone_number' ]
+            phone_number = request.form[ 'new_phone_number' ].strip()
             team_name = request.form[ 'team_name' ].strip()
             sql = 'select name FROM common_user_information where phone_number="%s"' % (phone_number)
             if cursor.execute(sql):
@@ -566,9 +570,9 @@ def send_message(): #创建公告
             sql_result = cursor.fetchall()
             if request.method == "POST":
                 sql = 'insert into message(team_name,title,content,phone_number) values(%s,%s,%s,%s);'  # 将公告写入数据库(库还没写)
-                team_name = request.form['team_name']  # 获取用户名
-                title = request.form['headline']          #获取标题
-                message = request.form['content']  # 获取公告内容
+                team_name = request.form['team_name'].strip()  # 获取用户名
+                title = request.form['headline'].strip()          #获取标题
+                message = request.form['content'].strip()  # 获取公告内容
                 phone_number=session['manage_phone_number']
                 if cursor.execute(sql,[team_name,title,message,phone_number]):
                     db.commit()

@@ -1,4 +1,4 @@
-#!E:\homework\python_practise\MPSA\project\venv\Scripts\python.exe
+#!E:\homework\python_practise\MPSA\venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'setuptools==39.1.0','console_scripts','easy_install'
 __requires__ = 'setuptools==39.1.0'
 import re
