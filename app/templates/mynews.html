@@ -2,6 +2,9 @@
 <html>
 <head>
 <title>我的消息</title>
+	<script src="js/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+<script type="text/javascript" src="../../static/js/layui/layui.js"></script>
 <link href="../../static/css/bootstrap.css" rel='stylesheet' type='text/css' />
 	<link rel="shortcut icon" href="../../static/images/icon.ico" />
 <link href="../../static/css/style.css" rel='stylesheet' type='text/css' />
@@ -11,14 +14,37 @@
 <script src="../../static/js/jquery-1.11.0.min.js"></script>
 <link href='http://fonts.useso.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="../../static/css/biaoti.css" rel="stylesheet" type="text/css">
+<link href="../../static/css/liujin.css" rel='stylesheet' type='text/css' />
+
 </head>
 <body>
+<div class="stars"></div>
+<script>
+$(document).ready(function(){
+  var stars=800;
+  var $stars=$(".stars");
+  var r=800;
+  for(var i=0;i<stars;i++){
+    var $star=$("<div/>").addClass("star");
+    $stars.append($star);
+  }
+  $(".star").each(function(){
+    var cur=$(this);
+    var s=0.2+(Math.random()*1);
+    var curR=r+(Math.random()*300);
+    cur.css({
+      transformOrigin:"0 0 "+curR+"px",
+      transform:" translate3d(0,0,-"+curR+"px) rotateY("+(Math.random()*360)+"deg) rotateX("+(Math.random()*-50)+"deg) scale("+s+","+s+")"
+
+    })
+  })
+})</script>
 	<!--start-header-->
 			<div id="home" class="header">
 					<div class="top-header">
 						<div class="container">
 							<div class="logo">
-								<a href="{{url_for('mynew')}}"><img src="../../static/images/logo.png" alt=""></a>
+								<a href="{{url_for('blue_common.mynew')}}"><img src="../../static/images/logo.png" alt=""></a>
 							</div>
 							<!--start-top-nav-->
 							 
@@ -49,19 +75,20 @@
 						});
 																						
 						});
-				</script>					
+				</script>
+
 		<!--End-header-->
 		<div class="navgation">
 					<div class="menu">
                          <a class="toggleMenu" href="#"><img src="../../static/images/menu-icon.png" alt="" /> </a>
 							<ul class="nav" id="nav">
 							
-							<li><a href="{{url_for('users')}}">我的社团</a></li>
-							<li><a href="{{url_for('mynew')}}" class="active">我的消息</a></li>
+							<li><a href="{{url_for('blue_common.users')}}">我的社团</a></li>
+							<li><a href="{{url_for('blue_common.mynew')}}" class="active">我的消息</a></li>
 							
-							<li><a href="{{url_for('systemnew')}}">系统通知</a></li>
-							<li><a href="{{url_for('personalcenter')}}">个人中心</a></li>
-							<li><a href="{{url_for('index')}}" >回到首页</a></li>
+							<li><a href="{{url_for('blue_common.systemnew')}}">系统通知</a></li>
+							<li><a href="{{url_for('blue_common.personalcenter')}}">个人中心</a></li>
+							<li><a href="{{url_for('blue_index.index')}}" >回到首页</a></li>
 							
 							</ul>
                             <!----start-top-nav-script---->
@@ -77,8 +104,9 @@
 							<!----//End-top-nav-script---->
 					</div>
 					<div class="search2">
-					  <form>
-						 <input type="text" value="Search.." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search..';}"/>
+					  <form action="/search" method="post">
+						  <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+						 <input type="text" name="keyword" value="搜索社团信息..." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '搜索社团信息...';}"/>
 						 <input type="submit" value="">
 					  </form>
 					</div>
@@ -91,69 +119,56 @@
 				<div class="blog-main">
 					<div class="col-md-8 blog-main-left">
 						<h3>消息</h3>
+
+						{%  for i in result %}
+
 						<div class="blg">
 							<div class="col-md-4 blog-left">
 								<a href="javascript:alert('还未开发')"><img src="../../static/images/ape.jpg" alt=""></a>
 							</div>
 							<div class="col-md-8 blog-left">
-								<h5>民族歌剧表演人才培养项目在我校开班</h5>
-								<span>by <a href="#">艺术学院 </a> on 2019-07-12 08:25   </span>
-								<p>7月9日，由国家艺术基金资助、我校主办的2019年度艺术人才培养资助项目——“民族歌剧表演人才培养项目”在我校开班。校党委副书记沈壮海、湖北省文联副主席罗丹青出席开班仪式。</p>
-								<div class="blog-btn">
-									<a href="javascript:alert('还未开发')">获取详情</a>
+								<h5>{{i[1]}}</h5>
+								<span>by <a href="#">{{i[0]}} </a> on {{i[3]}}  </span>
+								<details>
+									<summary>
+										<p style="word-wrap: break-word"> {{i[2]}}</p>
+										<div class="more">
+										<p style="word-wrap:break-word">{{i[4]}}</p>
+									</div>
+								<div class="layui-btn">
+									<a>获取详情</a>
 								</div>
+									</summary>
+								</details>
+
 							</div>
 							<div class="clearfix"> </div>
 						</div>
-						<div class="blg">
-							<div class="col-md-4 blog-left">
-								<a href="javascript:alert('还未开发')"><img src="../../static/images/vt.jpg" alt=""></a>
-							</div>
-							<div class="col-md-8 blog-left">
-								<h5>口腔医院科普动漫“牙牙精灵2”首发</h5>
-								<span>by <a href="#">口腔医学院</a> on 2019-07-11 15:49   </span>
-								<p>牙牙精灵队长率领美牙牙、壮牙牙、益牙牙、乖牙牙等成员和口腔疾病战斗，保护人类口腔健康......2013年，一部名为《精灵爱牙讲堂》的动漫从武汉大学口腔医院诞生，红遍全国，让公众尤其是少年儿童对口腔健康的认识得到提高。现今，这部口腔科普动漫的第二季再次出现在大众视野，开始向更大的市场探索。</p>
-								<div class="blog-btn">
-									<a href="javascript:alert('还未开发')">Read More</a>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blg">
-							<div class="col-md-4 blog-left">
-								<a href="javascript:alert('还未开发')"><img src="../../static/images/gp.jpg" alt=""></a>
-							</div>
-							<div class="col-md-8 blog-left">
-								<h5>【魔法课堂】别开生面的大健康通识课</h5>
-								<span>by <a href="#">本科生院</a> on 09 july 2014   <a href="#">  2019-07-10 15:13</a></span>
-								<p>“仔细看，左边是健康小鼠的肝脏，右边是脂肪肝模型小鼠的肝脏，大家认为区别在哪儿？”7月1日，武汉大学模式动物研究所细胞生物学实验室里，基础医学院院长、模式动物研究所所长李红良教授正在对两只小鼠进行解剖并讲解，学生们认真地围观，生怕漏掉了每一个细节。</p>
-								<div class="blog-btn">
-									<a href="javascript:alert('还未开发')">Read More</a>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
+						{% endfor %}
+
 					</div>
 					<div class="col-md-4 blog-main-left">
 						<h3>消息种类</h3>
 						<div class="ctgry">
 						<ul>
-							<li><a href="#">艺术表演</a></li>
-							<li><a href="#">公开讲座</a></li>
-							<li><a href="#">体育竞赛</a></li>
-							<li><a href="#">学科展览</a></li>
-							<li><a href="#">校外活动</a></li>
+							<li><a href="#"><font color="#FFFFFF">艺术表演</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">公开讲座</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">体育竞赛</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">学科展览</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">校外活动</a></font></li>
+
 						</ul>
 						</div>
 						<div class="archives">
 							<h3>消息时间</h3>
 						<ul>
-							<li><a href="#">2019年7月</a></li>
-							<li><a href="#">2019年6月</a></li>
-							<li><a href="#">2019年5月</a></li>
-							<li><a href="#">2019年4月</a></li>
-							<li><a href="#">2019年3月</a></li>
-							<li><a href="#">2019年2月</a></li>
+							<li><a href="#"><font color="#FFFFFF">2019年7月</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">2019年6月</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">2019年5月</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">2019年4月</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">2019年3月</a></font></li>
+							<li><a href="#"><font color="#FFFFFF">2019年2月</a></font></li>
+
 						</ul>
 						</div>
 						<div class="search">

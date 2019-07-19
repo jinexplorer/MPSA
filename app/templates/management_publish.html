@@ -6,6 +6,7 @@
 		<title>消息发布</title>
 
 		<!-- 公共样式 开始 -->
+		<link rel="shortcut icon" href="../../static/images/icon.ico"/>
 		<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
 		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
 		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
@@ -36,6 +37,7 @@
 	<body>
 		<div class="cBody">
 			<form id="addForm" class="layui-form" action="/manager/management/send_message" method="post">
+				 <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
 				<div class="layui-form-item">
 					<label class="layui-form-label">标题</label>
 					<div class="layui-input-block">

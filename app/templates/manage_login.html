@@ -4,6 +4,9 @@
 	<title>管理员登录</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="../static/js/gt.js"></script>
+	<script src="http://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/css/jiyan.css">
     <link rel="shortcut icon" href="../static/images/icon.ico" />
 	<!--图标-->
 	<link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css">
@@ -25,6 +28,7 @@
 			</div>
 
 			<form class="login100-form validate-form" action="/manage_login" method="post">
+				 <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
 				<span class="login100-form-title">
 					管理员登陆
 				</span>
@@ -49,12 +53,17 @@
 					</span>
 				</div>
 
+				<div>
+				<div id="embed-captcha"></div>
+   				 <p id="wait" class="show">正在加载验证码......</p>
+				<p id="notice" class="hide">请先拖动验证码到相应位置</p></div>
+
 				<div class="container-login100-form-btn">
-					<input type="submit" value="登录" class="login100-form-btn">
+					<input type="submit" id="embed-submit" value="登录" class="login100-form-btn">
 				</div>
 
 				<div class="text-center p-t-12">
-					<a class="txt2" href="javascript:alert('还没开发')">
+					<a class="txt2" href="/forget_password">
 						忘记密码？
 					</a>
 				</div>
@@ -69,6 +78,39 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	var handlerEmbed = function (captchaObj) {
+    $("#embed-submit").click(function (e) {
+        var validate = captchaObj.getValidate();
+        if (!validate) {
+            $("#notice")[0].className = "show";
+            setTimeout(function () {
+                $("#notice")[0].className = "hide";
+            }, 2000);
+            e.preventDefault();
+        }
+    });
+    captchaObj.appendTo("#embed-captcha");
+    captchaObj.onReady(function () {
+        $("#wait")[0].className = "hide";
+    });
+};
+$.ajax({
+    // 获取id，challenge，success（是否启用failback）
+    url: "/pc-geetest/register?t=" + (new Date()).getTime(), // 加随机数防止缓存
+    type: "get",
+    dataType: "json",
+    success: function (data) {
+        initGeetest({
+            gt: data.gt,
+            challenge: data.challenge,
+            product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+            offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+        }, handlerEmbed);
+    }
+});
+</script>
 
 </body>
 </html>

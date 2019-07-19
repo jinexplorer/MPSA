@@ -29,7 +29,39 @@ select{
 }
 textarea {  -webkit-appearance: none;}
 /***全局公共样式 - 开始***/
-
+.h_10{
+	height: 10px;
+}
+.h_30{
+	height: 30px;
+}
+.h_500{
+	height: 500px !important;
+}
+.no_mr{
+	margin-right: 0px !important;
+}
+.no_mb{
+	margin-bottom: 0px !important;
+}
+.no_bb{
+	border-bottom: 0px !important;
+}
+iframe{
+	display: block;
+    border: 0px;
+}
+img{
+	display: block;
+}
+.form_check_box{
+	line-height: 40px;
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-size: 12px;
+	color: #dd0322;
+}
 .cBody{
 	height: 100%;
 	padding: 10px;
@@ -37,7 +69,13 @@ textarea {  -webkit-appearance: none;}
 	overflow-y: auto;
 	position: relative;
 }
-
+i.bt{
+	float: left;
+	height: 38px;
+	line-height: 38px;
+	color: #9f191f;
+	font-size: 20px;
+}
 /***全局公共样式 - 结束***/
 
 
@@ -48,8 +86,164 @@ textarea {  -webkit-appearance: none;}
 /***子页面公共样式 - 结束***/
 
 
+/***图片放大缩小 - 开始***/
+.imgBig{
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	z-index: 1000;
+	box-shadow: 0 0 10px #888;
+	-webkit-box-shadow: 0 0 10px #888;
+	-moz-box-shadow: 0 0 10px #888;
+	-o-box-shadow: 0 0 10px #888;
+}
+.imgSmall{
+	position: static;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
+}
+/***图片放大缩小 - 结束***/
 
+/***打印模版样式 - 开始***/
+.printTable th, .printTable td{
+	border-color: #999 !important;
+}
+.printTable .textCenter{
+	text-align: center;
+}
+.printTable .font20{
+	font-size: 20px;
+	font-weight: 600;
+}
+.printTable .printName{
+	text-align: center;
+	font-size: 24px;
+	font-weight: 500;
+	padding: 20px 0;
+	color: #333;
+	border-bottom: 0;
+}
+.printTable .printSmallName{
+	text-align: center;
+	font-size: 14px;
+	padding: 0;
+	color: #333;
+	border-top: 0;
+	border-bottom: 0;
+}
+.printTable .printDis{
+	border-top: 0;
+	border-bottom: 0;
+}
+.printTable .printDis span{
+	float: left;
+	width: 50%;
+	font-size: 16px;
+	color: #333;
+	line-height: 40px;
+}
+.printTable .printDis span.right{
+	text-align: right;
+}
+.printTable .printOperator{
+	border-top: 0;
+}
+.printTable .printOperator span{
+	float: left;
+	width: 50%;
+	font-size: 16px;
+	color: #333;
+	line-height: 40px;
+}
+.printTable .printOperator .three{
+	float: left;
+	font-size: 16px;
+	color: #333;
+	line-height: 40px;
+}
+.printTable .printOperator span.right{
+	text-align: right;
+}
+/***打印模版样式 - 结束***/
 
+/***复写纸3层打印模版样式 - 开始***/
+.printTable_fxz3 th, .printTable_fxz3 td{
+	border-color: #999 !important;
+	color: #222;
+	padding: 2px 5px !important;
+}
+.printTable_fxz3 .textCenter{
+	text-align: center;
+}
+.printTable_fxz3 .font20{
+	font-size: 18px;
+	font-weight: 600;
+}
+.printTable_fxz3 .printName{
+	text-align: center;
+	font-size: 18px;
+	font-weight: 500;
+	padding: 10px 0;
+	color: #000;
+	border-bottom: 0;
+}
+.printTable_fxz3 .printSmallName{
+	text-align: center;
+	font-size: 14px;
+	padding: 0;
+	color: #333;
+	border-top: 0;
+	border-bottom: 0;
+	line-height: 16px;
+	padding: 0px 10px !important;
+}
+.printTable_fxz3 .printDis{
+	border-top: 0;
+	border-bottom: 0;
+	padding: 0px 5px !important;
+}
+.printTable_fxz3 .printDis span{
+	float: left;
+	width: 50%;
+	font-size: 14px;
+	color: #000;
+	line-height: 22px;
+}
+.printTable_fxz3 .printDis span.right{
+	text-align: right;
+}
+.printTable_fxz3 .printOperator{
+	border-top: 0;
+}
+.printTable_fxz3 .printOperator span{
+	float: left;
+	width: 50%;
+	font-size: 16px;
+	color: #333;
+	line-height: 40px;
+}
+.printTable_fxz3 .printOperator .three{
+	float: left;
+	font-size: 14px;
+	color: #000;
+	line-height: 26px;
+}
+.printTable_fxz3 .printOperator span.right{
+	text-align: right;
+}
+/***复写纸3层打印模版样式 - 结束***/
 
+/***自定义滚动条样式修改 - 开始***/
+.mCSB_container {
+    overflow: visible !important;
+}
+/***自定义滚动条样式修改 - 结束***/
 
-
+/***table操作iconfont - 开始***/
+.operationICONBut {
+	font-size: 18px;
+	margin-right: 3px;
+}
+/***table操作iconfont - 结束***/

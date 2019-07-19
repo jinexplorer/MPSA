@@ -2,23 +2,47 @@
 <html>
 <head>
 <title>系统通知</title>
-	    <link rel="shortcut icon" href="../../static/images/icon.ico" />
+	<script src="js/jquery.min.js"></script>
+	<link rel="shortcut icon" href="../../static/images/icon.ico" />
 <link href="../../static/css/bootstrap.css" rel='stylesheet' type='text/css' />
 <link href="../../static/css/style.css" rel='stylesheet' type='text/css' />
 <meta name="viewport" content="width=device-width, initial-scale=1">	
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <meta name="keywords" content="Bootstrap Responsive Templates, Iphone Compatible Templates, Smartphone Compatible Templates, Ipad Compatible Templates, Flat Responsive Templates"/>
 <script src="../../static/js/jquery-1.11.0.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+		<script type="text/javascript" src="../../static/js/layui/layui.js"></script>
 <link href='http://fonts.useso.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link href="../../static/css/biaoti.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="stars"></div>
+<script>
+$(document).ready(function(){
+  var stars=800;
+  var $stars=$(".stars");
+  var r=800;
+  for(var i=0;i<stars;i++){
+    var $star=$("<div/>").addClass("star");
+    $stars.append($star);
+  }
+  $(".star").each(function(){
+    var cur=$(this);
+    var s=0.2+(Math.random()*1);
+    var curR=r+(Math.random()*300);
+    cur.css({
+      transformOrigin:"0 0 "+curR+"px",
+      transform:" translate3d(0,0,-"+curR+"px) rotateY("+(Math.random()*360)+"deg) rotateX("+(Math.random()*-50)+"deg) scale("+s+","+s+")"
+
+    })
+  })
+})</script>
 	<!--start-header-->
 			<div id="home" class="header">
 					<div class="top-header">
 						<div class="container">
 							<div class="logo">
-								<a href="index.html"><img src="../../static/images/logo.png" alt=""></a>
+								<a href="#"><img src="../../static/images/logo.png" alt=""></a>
 							</div>
 							<!--start-top-nav-->
 							
@@ -49,18 +73,26 @@
 						});
 																						
 						});
-				</script>					
+				</script>
+
+
+
+
+
+
+
+
 		<!--End-header-->
 		<div class="navgation">
 					<div class="menu">
                          <a class="toggleMenu" href="#"><img src="../../static/images/menu-icon.png" alt="" /> </a>
 							<ul class="nav" id="nav">
 							
-							<li><a href="{{url_for('users')}}">我的社团</a></li>
-							<li><a href="{{url_for('mynew')}}" >我的消息</a></li>
-							<li><a href="{{url_for('systemnew')}}" class="active">系统通知</a></li>
-							<li><a href="{{url_for('personalcenter')}}" >个人中心</a></li>
-							<li><a href="{{url_for('index')}}" >回到首页</a></li>
+							<li><a href="{{url_for('blue_common.users')}}">我的社团</a></li>
+							<li><a href="{{url_for('blue_common.mynew')}}" >我的消息</a></li>
+							<li><a href="{{url_for('blue_common.systemnew')}}" class="active">系统通知</a></li>
+							<li><a href="{{url_for('blue_common.personalcenter')}}" >个人中心</a></li>
+							<li><a href="{{url_for('blue_index.index')}}" >回到首页</a></li>
 							</ul>
                             <!----start-top-nav-script---->
 		                     <script type="text/javascript" src="../../static/js/responsive-nav.js"></script>
@@ -75,8 +107,9 @@
 							<!----//End-top-nav-script---->
 					</div>
 					<div class="search2">
-					  <form>
-						 <input type="text" value="Search.." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search..';}"/>
+					  <form action="/search" method="post">
+						  <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+						 <input type="text" name="keyword" value="搜索社团信息..." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '搜索社团信息...';}"/>
 						 <input type="submit" value="">
 					  </form>
 					</div>
@@ -88,65 +121,62 @@
 			<div class="container">
 				<div class="blog-main">
 					<div class="col-md-8 blog-main-left">
-						<h3>NEWS</h3>
-						<div class="blg">
-							
-							<div class="col-md-8 blog-left">
-								<h5>武汉大学第四届“研究生教育杰出贡献校长奖”获奖教师公示</h5>
-								<span>by <a href="#">研究生院</a> on 2019-07-12 </span>
-								<p>经本人申报、研究生培养单位推荐、学部提名和学校评审，学校拟授予方卿、江洪、张小红、郭生练、雷爱文（按姓氏笔画排序）等5位研究生指导教师武汉大学第四届“研究生教育杰出贡献校长奖”。</p>
-								<div class="blog-btn">
-									<a href="single.html">获取详情</a>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blg">
-							
-							<div class="col-md-8 blog-left">
-								<h5>关于2019年武汉大学增设本科专业的公示</h5>
-								<span>by <a href="#">本科生院</a> on 2019-07-11  </span>
-								<p>经学院（系）申请，学校评审，拟同意新增西班牙语、人工智能、马克思主义理论及数据科学与大数据技术4个本科专业（具体申报材料见本科生院网）。公示期为7月11日-17日，凡对公示材料有异议者，请及时以书面形式实名反映至本科生院质量管理处215办公室。</p>
-								<div class="blog-btn">
-									<a href="single.html">Read More</a>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
-						<div class="blg">
-							
-							<div class="col-md-8 blog-left">
-								<h5>珞珈艺术大讲堂第3讲预告</h5>
-								<span>by <a href="#"> 本科生院 艺术教育中心</a> on 2019-07-09   </span>
-								<p>民族歌剧《党的女儿》创作漫谈主讲人：王祖皆，中国当代著名作曲家，现任中国歌剧研究会主席、中国音乐家协会理事、中国音协《音乐创作》杂志编委、文化部“中国民族歌剧传承发展工程”指导委员会委员、国家一级作曲，享受国务院政府特殊津贴专家。</p>
-								<div class="blog-btn">
-									<a href="single.html">Read More</a>
-								</div>
-							</div>
-							<div class="clearfix"> </div>
-						</div>
+						<h3>通知</h3>
+						<table id="customList" class="table" style="color:white">
+							<thead>
+								<tr>
+									<th scope="col">类型</th>
+									<th scope="col">社团名称</th>
+									<th scope="col">当前状态</th>
+									<th scope="col">修改时间</th>
+
+								</tr>
+							</thead>
+							<tbody>
+							{% for i in result %}
+
+								<tr>
+									<td>{{i[1]}}</td>
+									<td>{{i[0]}}</td>
+									<td>{{i[2]}}</td>
+									<td>{{i[3]}}</td>
+								</tr>
+
+
+
+								{% endfor %}
+							</tbody>
+							<script>
+								function check(string) {
+									document.getElementById(choose).value=string;
+								}
+							</script>
+
+						</table>
+
+
 					</div>
 					<div class="col-md-4 blog-main-left">
 						<h3>通知种类</h3>
 						<div class="ctgry">
 						<ul>
-							<li><a href="#">评优公示</a></li>
-							<li><a href="#">学科建设</a></li>
-							<li><a href="#">安全通知</a></li>
-							<li><a href="#">生活事务</a></li>
-							<li><a href="#">讲座预告</a></li>
+							<li><a href="#"><font color="#FFFFFF">评优公示</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">学科建设</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">安全通知</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">生活事务</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">讲座预告</font></a></li>
 						</ul>
 						</div>
 						<div class="archives">
 							<h3>通知时间</h3>
 						<ul>
-							<li><a href="#">2019年7月</a></li>
-							<li><a href="#">2019年6月</a></li>
-							<li><a href="#">2019年5月</a></li>
-							<li><a href="#">2019年4月</a></li>
-							<li><a href="#">2019年3月</a></li>
-							<li><a href="#">2019年2月</a></li>
-						</ul>
+							<li><a href="#"><font color="#FFFFFF">2019年7月</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">2019年6月</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">2019年5月</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">2019年4月</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">2019年3月</font></a></li>
+							<li><a href="#"><font color="#FFFFFF">2019年2月</font></a></li>
+                         </ul>
 						</div>
 						<div class="search">
 							<h3>SEARCH</h3>

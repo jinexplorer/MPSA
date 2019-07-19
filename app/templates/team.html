@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>社团</title>
+	<script src="js/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <link rel="shortcut icon" href="../static/images/icon.ico" />
 <script type="application/x-javascript">
@@ -13,6 +14,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 }
 //-->
 </script>
+<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+	<script type="text/javascript" src="../../static/js/layui/layui.js"></script>
 <meta name="keywords" content="Bootstrap Responsive Templates, Iphone Compatible Templates, Smartphone Compatible Templates, Ipad Compatible Templates, Flat Responsive Templates"/>
 <script src="../static/js/jquery-1.11.0.min.js"></script>
 <link href="../static/css/bootstrap.css" rel='stylesheet' type='text/css' />
@@ -21,6 +24,28 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <link href="../static/css/biaoti.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<div class="stars"></div>
+<script>
+$(document).ready(function(){
+  var stars=800;
+  var $stars=$(".stars");
+  var r=800;
+  for(var i=0;i<stars;i++){
+    var $star=$("<div/>").addClass("star");
+    $stars.append($star);
+  }
+  $(".star").each(function(){
+    var cur=$(this);
+    var s=0.2+(Math.random()*1);
+    var curR=r+(Math.random()*300);
+    cur.css({
+      transformOrigin:"0 0 "+curR+"px",
+      transform:" translate3d(0,0,-"+curR+"px) rotateY("+(Math.random()*360)+"deg) rotateX("+(Math.random()*-50)+"deg) scale("+s+","+s+")"
+
+    })
+  })
+})</script>
+
 	<!--start-header-->
 			<div id="home" class="header">
 					<div class="top-header">
@@ -31,13 +56,18 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 							<!--start-top-nav-->
 				<div class="top-nav">
 						<ul>
-
+							{% if no_login %}
 							<li class="active"><a href="/login"><span> </span>用户登录</a>
 							</li>
-							<li class="active"><a href="/manage_login"><span> </span>管理员登录</a>
+							<li class="active"><a  href="/manage_login"><span> </span>管理员登录</a>
 							</li>
 
-							<li><a href="/log_up">用户注册</a></li>
+							<li><a  href="/log_up">用户注册</a></li>
+							{% elif common_login %}
+							<li class="active"><a href="/login"><span> </span>返回我的主页</a>
+							 {% elif manage_login %}
+							 <li class="active"><a href="/manage_login"><span> </span>返回我的主页</a>
+							{% endif %}
 						</ul>
 				</div>
 							<div class="clearfix"> </div>
@@ -92,8 +122,9 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 							<!----//End-top-nav-script---->
 					</div>
 					<div class="search2">
-					  <form>
-						 <input type="text" value="Search.." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search..';}"/>
+					  <form action="/search" method="post">
+						  <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+						 <input type="text" name="keyword" value="搜索社团信息..." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '搜索社团信息...';}"/>
 						 <input type="submit" value="">
 					  </form>
 					</div>
@@ -108,48 +139,49 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 					</div>
 			<div class="container">
 				<div class="choose-top">
-				    
-					<h3>WHY CHOOSE US</h3>
-					<P>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</P>
+
+					<h3 style="color:white">社团列表</h3>
+
+						{% with messages = get_flashed_messages() %}
+										   {% if messages %}
+											<h4 style="color:red">
+											  {% for message in messages %}
+												 {{ message }}
+											  {% endfor %}
+												</h4>
+										   {% endif %}
+										{% endwith %}
+
+					<P style="color:white">List of associations</P>
 				</div>
-				<div class="choose-bottom">
-					<div class="col-md-4 choose-left">
-						<span class="choose-one"> </span>
-						<h4>社团1</h4>
-						<p>社团介绍Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-					</div>
-					<div class="col-md-4 choose-left">
-						<span class="choose-two"> </span>
-						<h4>社团2</h4>
-						<p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-					</div>
-					<div class="col-md-4 choose-left">
-						<span class="choose-tre"> </span>
-						<h4>Lorem ipsum dolor</h4>
-						<p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="choose-bottom">
-					<div class="col-md-4 choose-left">
-						<span class="choose-two"> </span>
-						<h4>Lorem ipsum dolor</h4>
-						<p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-					</div>
-					<div class="col-md-4 choose-left">
-						<span class="choose-tre"> </span>
-						<h4>Lorem ipsum dolor</h4>
-						<p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-					</div>
-					<div class="col-md-4 choose-left">
-						<span class="choose-one"> </span>
-						<h4>Lorem ipsum dolor</h4>
-						<p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
+
+<table class="table">
+  <thead>
+    <tr style="color:white">
+      <th scope="col">社团名</th>
+      <th scope="col">简介</th>
+      <th scope="col">申请加入</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in team %}
+    <tr style="color:white">
+      <td>{{i[0]}}</td>
+      <td>{{i[1]}}</td>
+      <td><form action="/applyin_community" method="post">
+			<input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+			<input type="hidden" name="team_name" value="{{i[0]}}">
+			<div class="blog-btn">
+			<button class="layui-btn"	type="submit" name="action" value="accept">申请加入</button>
 			</div>
-		</div>
+
+	  </form></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+			</div></div>
 		<!--End-choose-->
 		 <div class="footer">
                          <div class="container">

@@ -2,8 +2,18 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    {% if notice  %}
+    <script type="text/javascript">
+        function duihua() {
+            alert(notice)
+        }
+    </script>
+    {% endif  %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>主页</title>
+
+    <script src="js/jquery.min.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="../static/images/icon.ico" />
     <script type="application/x-javascript">
@@ -25,8 +35,30 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 
     <link href="../static/css/biaoti.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
+<body id="">
 <!--start-header-->
+<div class="stars"></div>
+<script>
+$(document).ready(function(){
+  var stars=800;
+  var $stars=$(".stars");
+  var r=800;
+  for(var i=0;i<stars;i++){
+    var $star=$("<div/>").addClass("star");
+    $stars.append($star);
+  }
+  $(".star").each(function(){
+    var cur=$(this);
+    var s=0.2+(Math.random()*1);
+    var curR=r+(Math.random()*300);
+    cur.css({
+      transformOrigin:"0 0 "+curR+"px",
+      transform:" translate3d(0,0,-"+curR+"px) rotateY("+(Math.random()*360)+"deg) rotateX("+(Math.random()*-50)+"deg) scale("+s+","+s+")"
+
+    })
+  })
+})</script>
+
 <div id="home" class="header">
     <div class="top-header">
         <div class="container">
@@ -37,13 +69,18 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             <!--start-top-nav-->
             <div class="top-nav">
                 <ul>
-
+                    {% if no_login %}
                     <li class="active"><a href="/login"><span> </span>用户登录</a>
                     </li>
                     <li class="active"><a  href="/manage_login"><span> </span>管理员登录</a>
                     </li>
 
                     <li><a  href="/log_up">用户注册</a></li>
+                    {% elif common_login %}
+                    <li class="active"><a href="/login"><span> </span>返回我的主页</a>
+                     {% elif manage_login %}
+                     <li class="active"><a href="/manage_login"><span> </span>返回我的主页</a>
+                    {% endif %}
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -97,11 +134,12 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             <!----//End-top-nav-script---->
         </div>
         <div class="search2">
-            <form>
-                <input type="text" value="Search.." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search..';}"/>
-                <input type="submit" value="">
-            </form>
-        </div>
+					  <form action="/search" method="post">
+                          <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+						 <input type="text" name="keyword" value="搜索社团信息..." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '搜索社团信息...';}"/>
+						 <input type="submit" value="">
+					  </form>
+					</div>
         <div class="clearfix"></div>
     </div>
 </div>
@@ -119,13 +157,14 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <div class="container">
         <div class="care-top">
             <h3>社团</h3>
+
         </div>
         <div class="care-bottom">
             <div class="col-md-4 c-bottom">
                 <div class="care-bottom-left">
-                    <img src="../static/images/grape.jpg" width="240px" height="170px" alt="">
-                    <h4>武汉大学记忆协会</h4>
-                    <p>武汉大学记忆协会以“快乐记忆，记忆快乐”为宗旨，帮助广大学生开发大脑潜能，实现人生梦想！协会的口号是“忘记你，我做不到”。协会主要是通过科学                       的训练体系，开发利用右脑图像记法快速牢记数字、中文、英语单词等各种信息的能力。除此之外，协会在思维导图、快速阅读等领域也造诣非凡，目标是                       让更多的人轻松记忆、快乐学习。团队在全脑记忆力开发和训练上处于世界</p>
+
+                    <h4><font color="#333333">武汉大学记忆协会</font></h4>
+                    <p><font color="#333333"><b>武汉大学记忆协会以“快乐记忆，记忆快乐”为宗旨，帮助广大学生开发大脑潜能，实现人生梦想！协会的口号是“忘记你，我做不到”。协会主要是通过科学的训练体系，开发利用右脑图像记法快速牢记数字、中文、英语单词等各种信息的能力。除此之外，协会在思维导图、快速阅读等领域也造诣非凡，目标是                       让更多的人轻松记忆、快乐学习。团队在全脑记忆力开发和训练上处于世界</b></font></p>
                     <div class="view">
                         <a href="#">VIEW</a>
                     </div>
@@ -133,20 +172,20 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
             </div>
             <div class="col-md-4 c-bottom">
                 <div class="care-bottom-middle">
-                    <img src="../static/images/millet.jpg" width="170px" height="170px" alt="">
-                     <h4>武汉大学绿洲环保协会</h4>
-                    <p>绿，必须永恒；绿，也一定会永恒——这是我们的信念。在这里，更像是一个家，一个团队的家，而这种力量是无穷的：你可以看到我们做活动宣传时，不发宣传单，每个人耐                       心的为别人讲解，虽然口干舌燥，却依然笑呵呵的；你可以看到我们在回收废旧电池时，一下一下的敲打，很累很累，却依然没有怨言；你可以看到我们身体力行，一起坚持                        坚持……一群志同道合的朋友相聚在一起，为着共同的梦想而奋斗，保护地球，也许我不可以，但我们可以。</p>
+
+                     <h4><font color="#333333">武汉大学绿洲环保协会</font></h4>
+                    <p><font color="#333333"><b>绿，必须永恒；绿，也一定会永恒——这是我们的信念。在这里，更像是一个家，一个团队的家，而这种力量是无穷的：你可以看到我们做活动宣传时，不发宣传单，每个人耐                       心的为别人讲解，虽然口干舌燥，却依然笑呵呵的；你可以看到我们在回收废旧电池时，一下一下的敲打，很累很累，却依然没有怨言；你可以看到我们身体力行，一起坚持                        坚持……一群志同道合的朋友相聚在一起，为着共同的梦想而奋斗，保护地球，也许我不可以，但我们可以。</b></font></p>
                     <div class="view">
                         <a href="#">VIEW</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 c-bottom">
+            <div class="col-md-4 c-bottom" >
                 <div class="care-bottom-right">
-                    <img src="../static/images/tree-2.png" width="240px" height="170px" alt="">
-                    <h4>武大蒲公英旅行协会</h4>
-                    <p> 武大蒲公英旅行协会是武汉大学人文旅游实践类的校级社团。正如我们说过的那样，蒲公英带你看遍世间美景，在社团成立两年多的时间里我们已与无数的伙伴们分享过许许多多美丽的时刻。
-                        我们曾经徒步穿越大别山，邂逅大美凤凰，相约“梦里老家”婺源，攀登“天下第一奇山”黄山，探访“十三朝古都”洛阳，到达“不识真面目”的庐山，我们还曾在张家界欢声笑                        语……。</p>
+
+                    <h4><font color="#333333">武大蒲公英旅行协会</font></h4>
+                    <p><font color="#333333"> <b>武大蒲公英旅行协会是武汉大学人文旅游实践类的校级社团。正如我们说过的那样，蒲公英带你看遍世间美景，在社团成立两年多的时间里我们已与无数的伙伴们分享过许许多多美丽的时刻。
+                        我们曾经徒步穿越大别山，邂逅大美凤凰，相约“梦里老家”婺源，攀登“天下第一奇山”黄山，探访“十三朝古都”洛阳，到达“不识真面目”的庐山，我们还曾在张家界欢声笑                        语……。</b></font></p>
                     <div class="view">
                         <a href="#">VIEW</a>
                     </div>
@@ -156,10 +195,12 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
         </div>
     </div>
 </div>
+
 <div class="news">
     <div class="container">
         <div class="news-top">
-            <h3>社团活动展览</h3>
+            <h3><font color="#FFCC99">社团活动展览</font></h3>
+
         </div>
          <div class="news-bottom">
            <div class="col-md-6 news-bottom-left">

@@ -6,6 +6,7 @@
     <title>人员管理</title>
 
     <!-- 公共样式 开始 -->
+    <link rel="shortcut icon" href="../../static/images/icon.ico"/>
     <link rel="stylesheet" type="text/css" href="../../static/css/base.css">
     <link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
     <script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
@@ -48,6 +49,7 @@
 <body>
 <div class="cBody">
     <form action="/manager/management/people" method="post">
+         <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
         <div class="console">
             <div class="layui-input-inline">
                 <input type="text" name="team_name" required lay-verify="required" placeholder="输入社团名称" autocomplete="off"
@@ -71,6 +73,7 @@
             <tr>
                 <td>{{i[0]}}</td>
                 <td>社长</td>
+                <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
                 <input type="hidden" name='team_name' value="{{i[0]}}">
                 <td>
                     <button class="layui-btn" type="submit">管理</button>
