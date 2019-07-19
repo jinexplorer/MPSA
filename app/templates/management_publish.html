@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+		<title>消息发布</title>
+
+		<!-- 公共样式 开始 -->
+		<link rel="shortcut icon" href="../../static/images/icon.ico"/>
+		<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
+		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+		<script type="text/javascript" src="../../static/js/layui.js"></script>
+		<!-- 滚动条插件 -->
+		<link rel="stylesheet" type="text/css" href="../../static/css/jquery.mCustomScrollbar.css">
+		<script src="../../static/js/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../static/js/jquery.mousewheel.min.js"></script>
+		<script src="../../static/js/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../static/js/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<!-- 公共样式 结束 -->
+		
+		<style>
+			.layui-form-label{
+				width: 100px;
+			}
+			.layui-input-block{
+				margin-left: 130px;
+			}
+			.layui-form{
+				margin-right: 30%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="cBody">
+			<form id="addForm" class="layui-form" action="/manager/management/send_message" method="post">
+				 <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">标题</label>
+					<div class="layui-input-block">
+						<input type="text" name="headline" required lay-verify="required" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">内容</label>
+					<div class="layui-input-block">
+						<textarea name="content" class="layui-textarea" required></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">社团选择</label>
+					<div class="layui-input-inline">
+						<select name="team_name" id="provid" lay-filter="provid" required >
+							{% for i in result %}
+								<option value="{{i[0]}}">{{i[0]}}</option>
+							{% endfor %}
+
+	                    </select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">附件</label>
+					<div class="layui-upload-drag" id="accessory">
+					  <i class="layui-icon"></i>
+					  <p>点击上传，或将文件拖拽到此处</p>
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" type="submit">发布</button>
+						
+					</div>
+				</div>
+			</form>
+			
+			{% if notice %}
+			<script>
+				alert('{{notice}}')
+			</script>
+			{% endif %}
+			<script>
+				layui.use(['upload','form'], function() {
+					var form = layui.form;
+					var upload = layui.upload;
+					var layer = layui.layer;
+					//监听提交
+					form.on('submit(submitBut)', function(data) {
+						return false;
+					});
+					form.verify({
+						//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+					  	ZHCheck: [
+						    /^[\u0391-\uFFE5]+$/
+						    ,'只允许输入中文'
+					  	] 
+					});
+					//拖拽上传
+					upload.render({
+						elem: '#goodsPic',
+						url: '/upload/',
+						done: function(res) {
+						  	console.log(res)
+						}
+					});
+				});
+			</script>
+
+		</div>
+	</body>
+
+</html>

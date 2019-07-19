@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+		<title>人员管理</title>
+
+		<!-- 公共样式 开始 -->
+		<link rel="shortcut icon" href="../../static/images/icon.ico"/>
+		<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
+		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+		<script type="text/javascript" src="../../static/js/layui/layui.js"></script>
+		<!-- 滚动条插件 -->
+		<link rel="stylesheet" type="text/css" href="../../static/css/jquery.mCustomScrollbar.css">
+		<script src="../../static/js/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../static/js/jquery.mousewheel.min.js"></script>
+		<script src="../../static/js/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../static/js/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<!-- 公共样式 结束 -->
+		
+		<style>
+			.searchResult{
+				position: absolute;
+				top: 50px;
+				left: 15px;
+				z-index: 10;
+				background-color: #FFF;
+				width: 100px;
+				border: 1px solid #d2d2d2;
+				border-radius: 2px;
+			}
+			.searchResult li{
+			    padding: 0 10px;
+			    line-height: 36px;
+			    white-space: nowrap;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
+			    cursor: pointer;
+			}
+			.searchResult li:hover{
+				background-color: #eee;
+			}
+		</style>
+	</head>
+
+	<body>
+		{% if notice %}
+		<script>
+			alert('{{notice}}')
+		</script>
+		{% endif %}
+		<div class="cBody">
+			<div class="console">
+				<div class="layui-form-item">
+					<a class="layui-btn" onClick="addCustomList('customList')">新增</a>
+				</div>
+			</div>
+			
+			<table id="customList" class="layui-table">
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>学号</th>
+						<th>联系方式</th>
+						<th>职务</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in result %}
+					<form action="/delect" method="post">
+						<input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+					<tr>
+						<td>{{i[0]}}</td>
+						<td>{{i[1]}}</td>
+						<input type="hidden" name='name' value="{{i[0]}}">
+						<input type="hidden" name='phone_number' value="{{i[3]}}">
+						<td>{{i[2]}}</td>
+						<td>{{i[3]}}</td>
+						<td>成员</td>
+						<td>
+							<button class="layui-btn"  type="submit">踢出本社团</button>
+						</td>
+					</tr>
+					</form>
+					{% endfor %}
+				</tbody>
+				<form action="/add" id="add" method="post">
+					<input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+					<input type="hidden" id="new_phone_number" name="new_phone_number">
+					<input type="hidden" name="team_name" value="{% if team %} {{team}} {% endif%}">
+				</form>
+			</table>
+		</div>
+		<script>
+
+			//根据2018.03.01日 张家港客户需求改版的要求，在新的后台框架中提供以下功能
+			//此功能只适用与提前加载后，进行搜索；
+
+			//新增
+			function addCustomList(id){
+				var str = '<tr>'+
+							'<td>'+
+							    '<input type="tel" name="phone" readonly="readonly" re autocomplete="off" class="layui-input" onkeyup="seachKeyup(this)">'+
+							'</td>'+
+							'<td>'+
+							    '<input type="tel" name="phone" readonly="readonly"  autocomplete="off" class="layui-input">'+
+							'</td>'+
+							'<td>'+
+							    '<input type="tel" name="phone" readonly="readonly"  autocomplete="off" class="layui-input">'+
+							'</td>'+
+							
+							'<td>'+
+							    '<input type="tel" id="phone" lay-verify="required" placeholder="输入手机号自动添加" class="layui-input">'+
+							'</td>'+
+							'<td>'+
+							    '<input type="tel" name="phone" readonly="readonly" autocomplete="off" class="layui-input">'+
+							'</td>'+
+							'<td>'+
+								'<button class="layui-btn" onclick="add()">邀请加入</button>'+
+							'</td>'+
+						'</tr>'+'</form>';
+				$("#"+id).append(str);
+				
+				//重新初始化Iframe的高度
+				cframeInit();
+			}
+			function add(){
+				document.getElementById("new_phone_number").value=document.getElementById("phone").value;
+				document.getElementById('add').submit()
+			}
+			//搜索按钮弹起
+			function seachKeyup(_this){
+				var w = $(_this).width()+10;
+				$(_this).siblings().remove();
+				
+				var str = '<ul class="searchResult" style="width: '+w+'px">'+
+						'<li onclick="seachChoose(this)">测试11</li>'+
+						'<li onclick="seachChoose(this)">测试11</li>'+
+						'<li onclick="seachChoose(this)">测试11</li>'+
+						'<li onclick="seachChoose(this)">测试11</li>'+
+					'</ul>';
+				$(_this).after(str);
+				
+				//点击其他地方搜索下拉框消失
+				$(document).click(function(){
+					$(".searchResult").remove();
+				});
+				
+				//点击input也消失
+				$(_this).click(function(){
+					$(".searchResult").remove();
+				});
+			}
+			//搜索下拉选项选中
+			function seachChoose(_this){
+				$(_this).parent().siblings("input").val($(_this).text());
+			}
+			
+			//删除
+			function delCustomList(_this){
+				layui.use(['form','laydate'], function() {
+					layer.confirm('确定要删除么？', {
+						btn: ['确定', '取消'] //按钮
+					}, function() {
+						$(_this).parent().parent().remove();
+						layer.msg('删除成功', {
+							icon: 1
+						});
+					}, function() {
+						layer.msg('取消删除', {
+							time: 2000 //20s后自动关闭
+						});
+					});
+				});
+			}
+
+		</script>
+	</body>
+
+</html>

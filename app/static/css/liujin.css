@@ -1,0 +1,24 @@
+::-webkit-details-marker {
+    display: none;
+}
+::-moz-list-bullet {
+    font-size: 0;
+    float: left;
+}
+summary {
+    user-select: none;
+    outline: 0;
+}
+.more {
+    display: none;
+}
+[open] .more {
+    display: block;
+}
+[open] summary a {
+    font-size: 0;
+}
+[open] summary a::before {
+    content: '收起';
+    font-size: 14px;
+}

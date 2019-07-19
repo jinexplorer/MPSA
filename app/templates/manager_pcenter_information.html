@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	    <meta charset="UTF-8">
+
+		<title>个人信息</title>
+
+		<!-- 公共样式 开始 -->
+		<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
+		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+		<script type="text/javascript" src="../../static/js/layui/layui.js"></script>
+		<!-- 滚动条插件 -->
+		<link rel="stylesheet" type="text/css" href="../../static/css/jquery.mCustomScrollbar.css">
+		<script src="../../static/js/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../static/js/jquery.mousewheel.min.js"></script>
+		<script src="../../static/js/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../static/js/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<!-- 公共样式 结束 -->
+
+		<style>
+			.layui-form-label{
+				width: 100px;
+			}
+			.layui-input-block{
+				margin-left: 130px;
+			}
+			.layui-form{
+				margin-right: 30%;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="cBody">
+			<form id="addForm" class="layui-form" action="/manager/manager_pcenter/manager_information" enctype='multipart/form-data' method="post">
+				<input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+				<div class="layui-form-item">
+					<label class="layui-form-label">姓名</label>
+					<div class="layui-input-block">
+						<input type="text" name="sname" maxlength="40" required lay-verify="required" autocomplete="off" class="layui-input" {% if name %} value="{{name}}"{% endif %}>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">学号</label>
+					<div class="layui-input-block">
+						<input type="text" maxlength="13" name="snumber" required lay-verify="required|number" autocomplete="off" class="layui-input" {% if student_number %} value="{{student_number}}"{% endif %}>
+					</div>
+				</div>
+
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">性别</label>
+					<div class="layui-input-inline">
+						<select name="sex" id="provid" lay-filter="provid" >
+
+							{% if sex=='女' %}
+								<option  value="女">女</option>
+								<option value="男">男</option>
+							{% else %}
+								<option value="男">男</option>
+								<option  value="女">女</option>
+							{% endif %}
+
+	                    </select>
+					</div>
+				</div>
+
+				<div class = "layui-form-item">
+					<lable class="layui-form-label">头像</lable>
+					{% if filepath %}
+                    <img src= "{{filepath}}" width="100px" height="100px" alt="请设置您的头像">
+                    {% endif %}
+				</div>
+
+				<div class = "layui-form-item">
+					<lable class="layui-form-label">修改头像</lable>
+					 <input type="file" name="file">
+					{% with messages = get_flashed_messages() %}
+					   {% if messages %}
+						  {% for message in messages %}
+							 {{ message }}
+						  {% endfor %}
+					   {% endif %}
+					{% endwith %}
+
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">手机号</label>
+					<div class="layui-input-block">
+						<input maxlength="11" type="text" name="pnumber"  readonly="readonly" {% if phone_number %} value="{{phone_number}}"{% endif %} required lay-verify="required|number" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">简介</label>
+					<div class="layui-input-block">
+						<textarea name="introduction" maxlength="100" class="layui-textarea" >{% if introduction %} {{introduction}}{% endif %}</textarea>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button  type="submit" class="layui-btn">立即提交</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+
+
+			<script>
+				layui.use(['upload','form'], function() {
+					var form = layui.form;
+					var upload = layui.upload;
+					var layer = layui.layer;
+					//监听提交
+					form.on('submit(submitBut)', function(data) {
+						return false;
+					});
+					form.verify({
+						//数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+					  	ZHCheck: [
+						    /^[\u0391-\uFFE5]+$/
+						    ,'只允许输入中文'
+					  	]
+					});
+					//拖拽上传
+					upload.render({
+						elem: '#goodsPic',
+						url: '/upload/',
+						done: function(res) {
+						  	console.log(res)
+						}
+					});
+				});
+			</script>
+
+		</div>
+	</body>
+
+</html>

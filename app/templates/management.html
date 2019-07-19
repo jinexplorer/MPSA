@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	<meta charset="UTF-8">
+	<title>社团管理</title>
+
+		<!-- 公共样式 开始 -->
+		<link rel="shortcut icon" href="../../static/images/icon.ico"/>
+		<link rel="bookmark" href="../../static/images/favicon.ico"/>
+		<link rel="stylesheet" type="text/css" href="../../static/css/base.css">
+		<link rel="stylesheet" type="text/css" href="../../static/css/iconfont.css">
+		<script type="text/javascript" src="../../static/js/jquery-1.11.3.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="../../static/css/layui.css">
+		<script type="text/javascript" src="../../static/js/layui.js"></script>
+		<!-- 滚动条插件 -->
+		<link rel="stylesheet" type="text/css" href="../../static/css/jquery.mCustomScrollbar.css">
+		<script src="../../static/js/jquery-ui-1.10.4.min.js"></script>
+		<script src="../../static/js/jquery.mousewheel.min.js"></script>
+		<script src="../../static/js/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../../static/js/cframe.js"></script><!-- 仅供所有子页面使用 -->
+		<!-- 公共样式 结束 -->
+		
+		<link rel="stylesheet" type="text/css" href="../../static/css/frameStyle.css">
+		<script type="text/javascript" src="../../static/js/frame.js" ></script>
+		
+	    <script type="text/JavaScript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+        </script>
+	</head>
+
+	<body>
+
+
+
+		<!-- 左侧菜单 - 开始 -->
+		<div class="frameMenu">
+		   
+		    <div class="logo">
+		        <img src="../../static/images/img-01.png"/>
+		        <div class="logoText">
+		            <h1>社团管理</h1>
+		            <p>百度一下，你就知道</p>
+		        </div>
+		    </div>
+			<div class="menu">
+		        <ul>
+		        	
+		        	
+					<li>
+		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('/manager/management/create_team',this)"><i></i>创建社团</a>
+		           	</li>
+					<li>
+		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('/manager/management/people',this)"><i></i>人员管理</a>
+		           	</li>
+					<li>
+		                <a class="menuFA" href="javascript:void(0)" onClick="menuCAClick('/manager/management/send_message',this)"><i></i>发布消息</a>
+		           	</li>
+					<li><a class="menuFA" href="/manager"><i></i>返回</a></li>
+					
+					
+		        	
+		        </ul>
+		    </div>
+		</div>
+		<!-- 左侧菜单 - 结束 -->
+		
+		<div class="main">
+			
+			
+			<!-- 核心区域 - 开始 -->
+			<div class="frameMain">
+				<div class="title" id="frameMainTitle">
+					<span><i class="iconfont icon-xianshiqi"></i>创建社团</span>
+				</div>
+				<div class="con">
+					<iframe id="mainIframe" src="/manager/management/create_team" scrolling="no"></iframe>
+				</div>
+			</div>
+			<!-- 核心区域 - 结束 -->
+		</div>
+	</body>
+
+</html>

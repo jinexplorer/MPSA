@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {% if notice  %}
+    <script type="text/javascript">
+        function duihua() {
+            alert(notice)
+        }
+    </script>
+    {% endif  %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>主页</title>
+
+    <script src="js/jquery.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../static/images/icon.ico" />
+    <script type="application/x-javascript">
+<!--
+addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+
+    </script>
+    <meta name="keywords"
+          content="Bootstrap Responsive Templates, Iphone Compatible Templates, Smartphone Compatible Templates, Ipad Compatible Templates, Flat Responsive Templates"/>
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <link href="../static/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    <link href="../static/css/style.css" rel='stylesheet' type='text/css'/>
+    <link href='http://fonts.useso.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+
+    <link href="../static/css/biaoti.css" rel="stylesheet" type="text/css"/>
+</head>
+<body id="">
+<!--start-header-->
+<div class="stars"></div>
+<script>
+$(document).ready(function(){
+  var stars=800;
+  var $stars=$(".stars");
+  var r=800;
+  for(var i=0;i<stars;i++){
+    var $star=$("<div/>").addClass("star");
+    $stars.append($star);
+  }
+  $(".star").each(function(){
+    var cur=$(this);
+    var s=0.2+(Math.random()*1);
+    var curR=r+(Math.random()*300);
+    cur.css({
+      transformOrigin:"0 0 "+curR+"px",
+      transform:" translate3d(0,0,-"+curR+"px) rotateY("+(Math.random()*360)+"deg) rotateX("+(Math.random()*-50)+"deg) scale("+s+","+s+")"
+
+    })
+  })
+})</script>
+
+<div id="home" class="header">
+    <div class="top-header">
+        <div class="container">
+            <div class="logo">
+                <a href="/"><img src="../static/images/logo.png" alt=""></a>
+            </div>
+
+            <!--start-top-nav-->
+            <div class="top-nav">
+                <ul>
+                    {% if no_login %}
+                    <li class="active"><a href="/login"><span> </span>用户登录</a>
+                    </li>
+                    <li class="active"><a  href="/manage_login"><span> </span>管理员登录</a>
+                    </li>
+
+                    <li><a  href="/log_up">用户注册</a></li>
+                    {% elif common_login %}
+                    <li class="active"><a href="/login"><span> </span>返回我的主页</a>
+                     {% elif manage_login %}
+                     <li class="active"><a href="/manage_login"><span> </span>返回我的主页</a>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+            <div class="title">
+                <h3 class="STYLE1">学生社团管理平台</h3>
+            </div>
+        </div>
+    </div>
+
+    <!---pop-up-box---->
+    <script type="text/javascript" src="../static/js/modernizr.custom.min.js"></script>
+    <link href="../static/css/popup-box.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="../static/js/jquery.magnific-popup.js" type="text/javascript"></script>
+    <!---//pop-up-box---->
+    <script>
+						$(document).ready(function() {
+						$('.popup-with-zoom-anim').magnificPopup({
+							type: 'inline',
+							fixedContentPos: false,
+							fixedBgPos: true,
+							overflowY: 'auto',
+							closeBtnInside: true,
+							preloader: false,
+							midClick: true,
+							removalDelay: 300,
+							mainClass: 'my-mfp-zoom-in'
+						});
+																						
+						});
+
+    </script>
+    <!--End-header-->
+    <div class="navgation">
+        <div class="menu">
+            <a class="toggleMenu" href="#"><img src="../static/images/menu-icon.png" alt=""/> </a>
+            <ul class="nav" id="nav">
+                <li><a href="/">首页</a></li>
+                <li><a href="/team">社团</a></li>
+            </ul>
+            <!----start-top-nav-script---->
+            <script type="text/javascript" src="../static/js/responsive-nav.js"></script>
+            <script type="text/javascript">
+							jQuery(document).ready(function($) {
+								$(".scroll").click(function(event){		
+									event.preventDefault();
+									$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+								});
+							});
+
+            </script>
+            <!----//End-top-nav-script---->
+        </div>
+        <div class="search2">
+					  <form action="/search" method="post">
+                          <input  type = "hidden"  name = "csrf_token"  value = "{{csrf_token()}}"/>
+						 <input type="text" name="keyword" value="搜索社团信息..." onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = '搜索社团信息...';}"/>
+						 <input type="submit" value="">
+					  </form>
+					</div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="banner">
+    <div class="container">
+        <div class="bnr-text">
+            <h1>Welcome to the Community Management Platform</h1>
+            <div class="bttn">
+                <a href="/contact_me">JOIN US</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="care">
+    <div class="container">
+        <div class="care-top">
+            <h3>社团</h3>
+
+        </div>
+        <div class="care-bottom">
+            <div class="col-md-4 c-bottom">
+                <div class="care-bottom-left">
+
+                    <h4><font color="#333333">武汉大学记忆协会</font></h4>
+                    <p><font color="#333333"><b>武汉大学记忆协会以“快乐记忆，记忆快乐”为宗旨，帮助广大学生开发大脑潜能，实现人生梦想！协会的口号是“忘记你，我做不到”。协会主要是通过科学的训练体系，开发利用右脑图像记法快速牢记数字、中文、英语单词等各种信息的能力。除此之外，协会在思维导图、快速阅读等领域也造诣非凡，目标是                       让更多的人轻松记忆、快乐学习。团队在全脑记忆力开发和训练上处于世界</b></font></p>
+                    <div class="view">
+                        <a href="#">VIEW</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 c-bottom">
+                <div class="care-bottom-middle">
+
+                     <h4><font color="#333333">武汉大学绿洲环保协会</font></h4>
+                    <p><font color="#333333"><b>绿，必须永恒；绿，也一定会永恒——这是我们的信念。在这里，更像是一个家，一个团队的家，而这种力量是无穷的：你可以看到我们做活动宣传时，不发宣传单，每个人耐                       心的为别人讲解，虽然口干舌燥，却依然笑呵呵的；你可以看到我们在回收废旧电池时，一下一下的敲打，很累很累，却依然没有怨言；你可以看到我们身体力行，一起坚持                        坚持……一群志同道合的朋友相聚在一起，为着共同的梦想而奋斗，保护地球，也许我不可以，但我们可以。</b></font></p>
+                    <div class="view">
+                        <a href="#">VIEW</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 c-bottom" >
+                <div class="care-bottom-right">
+
+                    <h4><font color="#333333">武大蒲公英旅行协会</font></h4>
+                    <p><font color="#333333"> <b>武大蒲公英旅行协会是武汉大学人文旅游实践类的校级社团。正如我们说过的那样，蒲公英带你看遍世间美景，在社团成立两年多的时间里我们已与无数的伙伴们分享过许许多多美丽的时刻。
+                        我们曾经徒步穿越大别山，邂逅大美凤凰，相约“梦里老家”婺源，攀登“天下第一奇山”黄山，探访“十三朝古都”洛阳，到达“不识真面目”的庐山，我们还曾在张家界欢声笑                        语……。</b></font></p>
+                    <div class="view">
+                        <a href="#">VIEW</a>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="news">
+    <div class="container">
+        <div class="news-top">
+            <h3><font color="#FFCC99">社团活动展览</font></h3>
+
+        </div>
+         <div class="news-bottom">
+           <div class="col-md-6 news-bottom-left">
+                <div class="news-btm">
+                    <a href="#" class="b-link-stripe b-animate-go  thickbox">
+                        <img class="port-pic" src="../static/images/apple.jpg"/>
+                        <div class="b-wrapper">
+                            <h2 class="b-animate b-from-left    b-delay03 ">
+                                <button>View full article</button>
+                            </h2>
+                        </div>
+                    </a>
+                </div>
+                <a href="#" class="b-link-stripe b-animate-go  thickbox">
+                    <img class="port-pic" src="../static/images/jinqiu.jpg"/>
+                    <div class="b-wrapper">
+                        <h2 class="b-animate b-from-left    b-delay03 ">
+                            <button>View full article</button>
+                        </h2>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 news-bottom-left">
+                <div class="news-btm">
+                    <a href="#" class="b-link-stripe b-animate-go  thickbox">
+                        <img class="port-pic" src="../static/images/paobu.jpg"/>
+                        <div class="b-wrapper">
+                            <h2 class="b-animate b-from-left    b-delay03 ">
+                                <button>View full article</button>
+                            </h2>
+                        </div>
+                    </a>
+                </div>
+                <a href="#" class="b-link-stripe b-animate-go  thickbox">
+                    <img class="port-pic" src="../static/images/tushuguan.jpg"/>
+                    <div class="b-wrapper">
+                        <h2 class="b-animate b-from-left    b-delay03 ">
+                            <button>View full article</button>
+                        </h2>
+                    </div>
+                </a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="news-btm1">
+                <a href="#" class="b-link-stripe b-animate-go  thickbox">
+                    <img class="port-pic" class="img-responsive" src="../static/images/fd-btm1.jpg"/>
+                    <div class="b-wrapper">
+                        <h2 class="b-animate b-from-left b-left   b-delay03 ">
+                            <span>Sed in lacus ut enim adipiscing aliquet</span>
+                            <button>View full article</button>
+                        </h2>
+                    </div>
+                </a>
+            </div>
+            <div class="fd-btn">
+                <a href="/contact_me">JOIN US</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="contact">
+    <div class="container">
+        <div class="contact-main">
+            <div class="col-md-4 contact-left">
+                <h4>For Help center contact</h4>
+                <p><span>Email:</span><a href="https://mail.qq.com">1059024691@qq.com</a></p>
+                <p><span>Phone:</span>15927517010</p>
+            </div>
+            <div class="col-md-4 contact-left">
+                <h4>Address</h4>
+                <a href="https://www.whu.edu.cn/">武汉大学</a>
+            </div>
+            <div class="col-md-4 contact-left">
+                <h4>Follow us</h4>
+                <ul>
+                    <li><a href="https://www.facebook.com/jin.liu.73594"><span class="fb"> </span></a></li>
+                    <li><a href="https://twitter.com/real_Liujin"><span class="twit"> </span></a></li>
+                    <li><a href="#"><span class="in"> </span></a></li>
+                    <li><a href="#"><span class="yt"> </span></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="container">
+        <div class="footer-text">
+            <p>pwer by 宏颜获水</p>
+        </div>
+    </div>
+    <a href="#home" id="toTop" class="scroll" style="display: block;"> <span id="toTopHover"
+                                                                             style="opacity: 1;"> </span></a>
+</div>
+</body>
+</html>
