@@ -32,11 +32,11 @@ app.register_blueprint(blue_team_information)
 app.config['MAIL_SERVER'] = "smtp.qq.com"
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = "1074612393@qq.com"
-app.config['MAIL_PASSWORD'] = "ejapyzfccntsfefb"
+app.config['MAIL_USERNAME'] = "xxxxxxxxx@qq.com"
+app.config['MAIL_PASSWORD'] = "xxxxxxxx"
 mail = Mail(app)
 
 #run
 if __name__ == '__main__':
-    app.secret_key = 'i-like-python-nmba'
+    app.secret_key = 'xxxxxxxx'
     app.run(host='0.0.0.0')
